@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "babel src --out-dir dist",
-    "test": "NODE_ENV=testing jest --forceExit --detectOpenHandles  --silent",
+    "test": "NODE_ENV=testing jest --forceExit --detectOpenHandles  --silent --env=jsdom",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "restart": "rimraf dist && yarn build && yarn start",
     "start": "node dist/index.js",
@@ -36,10 +36,10 @@
     "@babel/plugin-proposal-class-properties": "^7.3.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^9.0.0",
     "babel-jest": "23.6.0",
-    "babel-preset-env": "^1.7.0",
     "concurrently": "^4.1.0",
     "eslint": "5.12.0",
     "eslint-config-airbnb": "^17.1.0",
@@ -57,16 +57,19 @@
     "ndb": "^1.0.43",
     "nodemon": "^1.18.10",
     "prettier": "^1.16.4",
+    "react-test-renderer": "^16.8.6",
     "rimraf": "^2.6.3",
     "supertest": "^4.0.0"
   },
   "jest": {
     "verbose": true,
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
     "testURL": "http://localhost/",
     "testEnvironment": "node",
-    "setupFilesAfterEnv": [
-      "<rootDir>/test-db-setup.js"
-    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/test-db-setup.js",
     "testPathIgnorePatterns": [
       "dist/"
     ],
