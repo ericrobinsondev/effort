@@ -3,7 +3,12 @@ node_js:
   - 'node'
 services:
   - mongodb
-script:
-  - yarn
-  - cd client
-  - yarn
+jobs:
+  include:
+    - stage: package install
+    script:
+      - yarn
+      - cd client
+      - yarn
+    - stage: server and client tests
+      - yarn test
