@@ -3,16 +3,13 @@ node_js:
   - 'stable'
 services:
   - mongodb
-cache:
-  directories:
-    - node_modules
+cache: yarn
 jobs:
   include:
     - stage: package install
       script:
         - yarn
-        - cd client
-        - yarn
+        - cd client && yarn
     - stage: server and client tests
       script:
         - yarn test
