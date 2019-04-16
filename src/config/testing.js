@@ -1,6 +1,6 @@
 export const config = {
   secrets: {
-    jwt: 'kristyannabella'
+    jwt: 'test-jwt'
   },
-  dbUrl: 'mongodb://localhost:27017/testing-express-starter'
+  dbUrl: 'mongodb://localhost:27017/testing-measure-effort'
 };
