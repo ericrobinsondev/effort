@@ -4,12 +4,5 @@ node_js:
 services:
   - mongodb
 cache: yarn
-jobs:
-  include:
-    - stage: package install
-      script:
-        - yarn
-        - cd client && yarn
-    - stage: server and client tests
-      script:
-        - yarn test
+script:
+  - yarn && cd client && yarn && cd ../ && yarn test
