@@ -6,9 +6,11 @@ services:
 jobs:
   include:
     - stage: package install
-    script:
-      - yarn
+      script:
+        - yarn
+    - # install react packages
       - cd client
       - yarn
     - stage: server and client tests
-      - yarn test
+      script:
+        - yarn test
