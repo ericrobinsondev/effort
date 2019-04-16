@@ -3,3 +3,7 @@ node_js:
   - 'node'
 services:
   - mongodb
+script:
+  - yarn
+  - cd client
+  - yarn
