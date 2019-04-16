@@ -1,16 +1,18 @@
 language: node_js
 node_js:
-  - 'node'
+  - 'stable'
 services:
   - mongodb
+cache:
+  directories:
+    - node_modules
 jobs:
   include:
     - stage: package install
       script:
         - yarn
-    - # install react packages
-      - cd client
-      - yarn
+        - cd client
+        - yarn
     - stage: server and client tests
       script:
         - yarn test
