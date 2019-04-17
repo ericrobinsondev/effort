@@ -1,0 +1,22 @@
+{
+  "addons": [
+    "mongolab"
+  ],
+  "buildpacks": [
+
+  ],
+  "env": {
+    "MONGODB_URI": {
+      "required": true
+    },
+    "JWT_SECRET": {
+      "generator": "secret"
+    }
+  },
+  "formation": {
+  },
+  "name": "effort",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
