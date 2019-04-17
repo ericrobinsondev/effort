@@ -1,6 +1,7 @@
 import { merge } from 'lodash';
 
 const env = process.env.NODE_ENV || 'production';
+console.log('XXXXXX process.env.NODE_ENV: ', process.env.NODE_ENV);
 
 const baseConfig = {
   env,
@@ -15,8 +16,6 @@ const baseConfig = {
 
 let envConfig = {};
 
-console.log('XXXXXXXXXXXX env: ', env);
-
 switch (env) {
   case 'dev':
   case 'development':
@@ -30,6 +29,7 @@ switch (env) {
     break;
   case 'production':
     envConfig = require('./prod').config;
+    break;
   default:
     /* eslint-disable-next-line */
     envConfig = require('./dev').config;
