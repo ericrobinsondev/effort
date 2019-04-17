@@ -1,13 +1,12 @@
 import { merge } from 'lodash';
 
-const env = process.env.NODE_ENV || 'production';
-console.log('XXXXXX process.env.NODE_ENV: ', process.env.NODE_ENV);
+const env = process.env.NODE_ENV || 'development';
 
 const baseConfig = {
   env,
   isDev: env === 'development',
   isTest: env === 'testing',
-  port: 5000,
+  port: process.env.PORT || 5000,
   secrets: {
     jwt: process.env.JWT_SECRET,
     jwtExp: '100d'
