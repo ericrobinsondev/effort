@@ -15,6 +15,8 @@ const baseConfig = {
 
 let envConfig = {};
 
+console.log('XXXXXXXXXXXX env: ', env);
+
 switch (env) {
   case 'dev':
   case 'development':
