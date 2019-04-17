@@ -1,9 +1,8 @@
 {
-  "name": "express-starter",
-  "version": "1",
+  "name": "effort",
   "description": "boilerplate for starting express apis",
   "main": "index.js",
-  "repository": "git@github.com:drericrobinson/express-starter.git",
+  "repository": "git@github.com:drericrobinson/effort.git",
   "author": "Eric Robinson <soyecr+dr@gmail.com>",
   "license": "MIT",
   "scripts": {
