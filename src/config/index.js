@@ -26,6 +26,8 @@ switch (env) {
     /* eslint-disable-next-line */
     envConfig = require('./testing').config;
     break;
+  case 'production':
+    envConfig = require('./prod').config;
   default:
     /* eslint-disable-next-line */
     envConfig = require('./dev').config;
