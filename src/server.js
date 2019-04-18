@@ -22,11 +22,8 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.use('/api', authRequired);
 app.post('/signup', signup);
 app.post('/signin', signin);
-// app.get('/', (req, res) => {
-//   res.status(200).end();
-// });
 
-// Anything that doesn't match the above, send back index.html
+// Anything that doesn't match the above, send back client index.html
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
