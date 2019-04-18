@@ -17,7 +17,7 @@ app.use(urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 // Serve static files from the React frontend app
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, '/../client/build')));
 
 app.use('/api', authRequired);
 app.post('/signup', signup);
