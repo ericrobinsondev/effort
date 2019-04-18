@@ -16,7 +16,7 @@
     "client": "cd client && yarn start",
     "client-install": "yarn --cwd client",
     "server": "ndb nodemon --exec yarn restart",
-    "heroku-postbuild": "cd client && yarn && yarn build"
+    "heroku-postbuild": "yarn build && cd client && yarn && yarn build"
   },
   "dependencies": {
     "bcrypt": "^3.0.4",
