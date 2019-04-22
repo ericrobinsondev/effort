@@ -9,5 +9,6 @@ module.exports = {
       }
     ]
   ],
-  babelrcRoots: ['.', 'client/']
+  babelrcRoots: ['.', 'client/'],
+  plugins: ['@babel/plugin-proposal-class-properties']
 };
