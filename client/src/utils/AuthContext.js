@@ -11,12 +11,15 @@ class AuthProvider extends React.Component {
     this.logout = this.logout.bind(this);
   }
 
-  login() {
+  login(values) {
     // setting timeout to mimic an async login
+    // TODO: Update with the token
+    localStorage.setItem('token', 'logged in');
     setTimeout(() => this.setState({ isAuth: true }), 1000);
   }
   logout() {
     this.setState({ isAuth: false });
+    localStorage.removeItem('token');
   }
 
   render() {

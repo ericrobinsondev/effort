@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-import { Link } from '@reach/router';
 import { AuthConsumer } from '../../utils/AuthContext';
+import { UikWidget, UikButton, UikWidgetHeader } from '../../@uik';
+import { LoginForm } from './LoginForm';
 
 export class Login extends Component {
   render() {
     return (
       <AuthConsumer>
         {({ isAuth, login, logout }) => (
-          <div>
-            <h3>
-              <Link to='/'>Home</Link>
-            </h3>
+          <UikWidget
+            padding
+            style={{
+              width: 500 + 'px',
+              margin: '0 auto'
+            }}
+          >
+            <UikWidgetHeader noDivider>Login</UikWidgetHeader>
             {isAuth ? (
-              <ul>
-                <Link to='/landing'>Landing</Link>
-                <button onClick={logout}>logout</button>
-              </ul>
+              <UikButton onClick={logout}>logout</UikButton>
             ) : (
-              <button onClick={login}>login</button>
+              <LoginForm onLogin={login} />
             )}
-          </div>
+          </UikWidget>
         )}
       </AuthConsumer>
     );

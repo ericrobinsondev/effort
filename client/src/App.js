@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Router, Link } from '@reach/router';
-import logo from './logo.svg';
-import './App.css';
 import './@uik/styles.css';
 import { Login } from './views/Login';
 import { Landing } from './views/Landing';
