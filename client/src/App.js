@@ -6,6 +6,7 @@ import { Landing } from './views/Landing';
 import { Home } from './views/Home';
 import { AuthProvider } from './utils/AuthContext';
 import { ProtectedRoute } from './utils/ProtectedRoute';
+import { Layout } from './views/Layout';
 
 class App extends Component {
   render() {
@@ -13,11 +14,15 @@ class App extends Component {
       <div className='App'>
         <AuthProvider>
           <Link to='/'>Home</Link>
-          <Link to='/landing'>Landing</Link>
+          <Link to='/'>Landing</Link>
           <Link to='/login'>Login</Link>
           <Router>
             {/* <Home path='/' /> */}
-            <ProtectedRoute path='/' component={Home} altComponent={Landing} />
+            <ProtectedRoute
+              path='/'
+              component={Layout}
+              altComponent={Landing}
+            />
             <ProtectedRoute path='/landing' component={Landing} />
             <Login path='/login' />
           </Router>
