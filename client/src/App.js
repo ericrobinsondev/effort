@@ -16,7 +16,7 @@ class App extends Component {
           <Link to='/'>Home</Link>
           <Link to='/'>Landing</Link>
           <Link to='/login'>Login</Link>
-          <Router>
+          <Router primary={false}>
             {/* <Home path='/' /> */}
             <ProtectedRoute path='/' component={Layout} altComponent={Landing}>
               <Report path='current' component={Report} />
