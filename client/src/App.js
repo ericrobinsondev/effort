@@ -3,10 +3,10 @@ import { Router, Link } from '@reach/router';
 import './@uik/styles.css';
 import { Login } from './views/Login';
 import { Landing } from './views/Landing';
-import { Home } from './views/Home';
 import { AuthProvider } from './utils/AuthContext';
 import { ProtectedRoute } from './utils/ProtectedRoute';
 import { Layout } from './views/Layout';
+import { Report } from './views/Report';
 
 class App extends Component {
   render() {
@@ -18,11 +18,9 @@ class App extends Component {
           <Link to='/login'>Login</Link>
           <Router>
             {/* <Home path='/' /> */}
-            <ProtectedRoute
-              path='/'
-              component={Layout}
-              altComponent={Landing}
-            />
+            <ProtectedRoute path='/' component={Layout} altComponent={Landing}>
+              <Report path='current' component={Report} />
+            </ProtectedRoute>
             <ProtectedRoute path='/landing' component={Landing} />
             <Login path='/login' />
           </Router>
