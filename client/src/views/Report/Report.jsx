@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { QuestionChart } from './QuestionChart';
-import { UikToggle, UikButton } from '../../@uik';
+import {
+  UikToggle,
+  UikButton,
+  UikHeadline,
+  UikHeadlineDesc,
+  UikContentTitle
+} from '../../@uik';
 
 export class Report extends Component {
   state = {
@@ -21,7 +27,8 @@ export class Report extends Component {
           creditForEach: true,
           pointsEarned: 0,
           pointsExpected: 50,
-          comment: ''
+          comment: '',
+          amount: 0
         },
         {
           title: 'How many names did you brainstorm?',
@@ -29,7 +36,8 @@ export class Report extends Component {
           creditForEach: true,
           pointsEarned: 0,
           pointsExpected: 35,
-          comment: ''
+          comment: '',
+          amount: 0
         },
         {
           title: 'Have you completed your admin work this week?',
@@ -37,7 +45,8 @@ export class Report extends Component {
           creditForEach: false,
           pointsEarned: 0,
           pointsExpected: 50,
-          comment: ''
+          comment: '',
+          amount: 0
         },
         {
           title: 'How many asks have you made this week?',
@@ -45,7 +54,26 @@ export class Report extends Component {
           creditForEach: true,
           pointsEarned: 0,
           pointsExpected: 45,
-          comment: ''
+          comment: '',
+          amount: 0
+        },
+        {
+          title: 'How many asks have you made this week?',
+          pointsEach: 15,
+          creditForEach: true,
+          pointsEarned: 0,
+          pointsExpected: 45,
+          comment: '',
+          amount: 0
+        },
+        {
+          title: 'How many asks have you made this week?',
+          pointsEach: 15,
+          creditForEach: true,
+          pointsEarned: 0,
+          pointsExpected: 45,
+          comment: '',
+          amount: 0
         }
       ],
       reportComment: ''
@@ -53,24 +81,56 @@ export class Report extends Component {
   };
   render() {
     return (
-      <div>
-        This is the Report for {this.state.report.startDate.day};
-        {this.state.report.questions.map(question => {
-          return (
-            <QuestionChart
-              key={question.title}
-              title={question.title}
-              pointsEach={question.pointsEach}
-              creditForEach={question.creditForEach}
-              pointsEarned={question.pointsEarned}
-              pointsExpected={question.pointsExpected}
-              comment={question.comment}
-            />
-          );
-        })}
-        <UikToggle defaultChecked label='Active Week' />
-        <UikButton primary>Save</UikButton>
-        <UikButton>Cancel</UikButton>
+      <div style={{ padding: '30px' }}>
+        <UikHeadline>Weekly Report</UikHeadline>
+        <UikHeadlineDesc>
+          {this.state.report.startDate.month} {this.state.report.startDate.day}
+        </UikHeadlineDesc>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
+          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            {this.state.report.questions.map(question => {
+              return (
+                <QuestionChart
+                  key={question.title}
+                  title={question.title}
+                  pointsEach={question.pointsEach}
+                  creditForEach={question.creditForEach}
+                  pointsEarned={question.pointsEarned}
+                  pointsExpected={question.pointsExpected}
+                  comment={question.comment}
+                  amount={question.amount}
+                />
+              );
+            })}
+          </div>
+        </div>
+        <div style={{ margin: '20px' }}>
+          <UikContentTitle>Comment for Coach</UikContentTitle>
+          <br />
+          <textarea className='uik-input__input' style={{ minHeight: '75px' }}>
+            {this.state.report.comment}
+          </textarea>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginBottom: '20px'
+          }}
+        >
+          <UikToggle defaultChecked label='Active Week' />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <UikButton primary style={{ marginRight: '10px' }}>
+            Save
+          </UikButton>
+          <UikButton>Cancel</UikButton>
+        </div>
       </div>
     );
   }
