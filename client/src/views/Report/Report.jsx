@@ -18,7 +18,7 @@ export class Report extends Component {
       month: 4,
       day: 21
     },
-    pointsEarned: 235,
+    pointsEarned: 0,
     pointsExpected: 356,
     questions: {
       0: {
@@ -46,10 +46,10 @@ export class Report extends Component {
         title: 'Have you completed your admin work this week?',
         pointsEach: 35,
         creditForEach: false,
-        pointsEarned: 35,
+        pointsEarned: 0,
         pointsExpected: 35,
         comment: '',
-        amount: 1
+        amount: 0
       },
       3: {
         id: 3,
@@ -86,21 +86,36 @@ export class Report extends Component {
   };
 
   changeAmount = event => {
-    //console.log(event.target.getAttribute('data-question'));
     const idToUpdate = event.target.getAttribute('data-id');
+    const question = this.state.questions[idToUpdate];
+    const pointsEarned = this.calculatePointsEarned(
+      question.creditForEach,
+      event.target.value,
+      question.pointsEach
+    );
+
+    console.log(pointsEarned);
+
     this.setState({
+      pointsEarned:
+        this.state.pointsEarned + (pointsEarned - question.pointsEarned),
       questions: {
         ...this.state.questions,
         [idToUpdate]: {
           ...this.state.questions[idToUpdate],
-          amount: event.target.value
+          amount: event.target.value,
+          pointsEarned: pointsEarned
         }
       }
     });
   };
 
+  calculatePointsEarned = (creditForEach, amount, pointsEach) => {
+    return creditForEach ? amount * pointsEach : amount > 0 ? pointsEach : 0;
+  };
+
   render() {
-    console.log(this.state);
+    console.log(this.state.questions[0]);
     return (
       <div style={{ padding: '30px' }}>
         <UikHeadline style={{ marginLeft: '20px' }}>Weekly Report</UikHeadline>

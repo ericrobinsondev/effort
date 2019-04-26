@@ -42,7 +42,10 @@ export const WeekProgressChart = props => {
                         ? pointsExpected - pointsEarned
                         : 0
                     ],
-                    backgroundColor: ['#FFD166', '#CCC']
+                    backgroundColor: [
+                      pointsEarned < pointsExpected ? '#FFD166' : '#06D6A0',
+                      '#CCC'
+                    ]
                   }
                 ]
               }}

@@ -89,7 +89,18 @@ export const QuestionChart = props => {
                 width: '100%'
               }}
             >
-              <input data-id={id} defaultValue={amount} onBlur={handleChange} />
+              {creditForEach ? (
+                <input
+                  data-id={id}
+                  defaultValue={amount}
+                  onBlur={handleChange}
+                />
+              ) : (
+                <select data-id={id} value={amount} onChange={handleChange}>
+                  <option value='0'>No</option>
+                  <option value='1'>Yes</option>
+                </select>
+              )}
               <UikDivider />
               <h3 style={{ marginTop: '10px', marginBottom: '0px' }}>
                 {pointsEarned}
