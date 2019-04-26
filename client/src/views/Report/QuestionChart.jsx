@@ -6,7 +6,8 @@ import {
   UikWidgetHeader,
   UikWidgetContent,
   UikInput,
-  UikDivider
+  UikDivider,
+  UikContentTitle
 } from '../../@uik';
 import { DoughnutOptions } from './DoughnutOptions';
 
@@ -40,10 +41,12 @@ export const QuestionChart = props => {
           }}
         >
           {title}
-          <h5 style={{ color: '#CCC', margin: 0, padding: 0 }}>
-            {pointsEach} point{pointsEach > 1 ? 's ' : ' '}
-            {creditForEach ? 'each' : 'total'}
-          </h5>
+          <span>
+            <h5 style={{ color: '#CCC', margin: 0, padding: 0 }}>
+              {pointsEach} point{pointsEach > 1 ? 's ' : ' '}
+              {creditForEach ? 'each' : 'total'}
+            </h5>
+          </span>
         </UikWidgetHeader>
         <UikWidgetContent style={{ padding: '10px' }}>
           {/* Points Each: {pointsEach}
@@ -78,7 +81,10 @@ export const QuestionChart = props => {
             >
               <h1>{amount}</h1>
               <UikDivider />
-              <h3
+              <h3 style={{ marginTop: '10px', marginBottom: '0px' }}>
+                {pointsEarned(creditForEach, amount, pointsEach)}
+              </h3>
+              <UikContentTitle
                 style={{
                   textAlign: 'center',
                   paddingBottom: '0px',
@@ -86,8 +92,7 @@ export const QuestionChart = props => {
                 }}
               >
                 Points{'\n'}Earned
-              </h3>
-              <h3>{pointsEarned(creditForEach, amount, pointsEach)}</h3>
+              </UikContentTitle>
             </div>
           </div>
         </UikWidgetContent>

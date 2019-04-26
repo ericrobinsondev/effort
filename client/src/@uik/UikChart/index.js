@@ -135,7 +135,7 @@ export default class UikChart extends PureComponent {
       <div className={classnames(cls.wrapper, className)}>
         <div ref={this.setRef('wrapper')} className={cls.canvasWrapper}>
           <div className={cls.tooltipWrapper} style={sizecls}>
-            {chartType == 'Line' ? (
+            {chartType === 'Line' ? (
               <Line
                 ref={this.setRef('chart')}
                 data={data}

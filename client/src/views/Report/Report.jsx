@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { QuestionChart } from './QuestionChart';
-import {
-  UikToggle,
-  UikButton,
-  UikHeadline,
-  UikHeadlineDesc,
-  UikContentTitle
-} from '../../@uik';
+import { WeekProgressChart } from './WeekProgressChart';
+import { UikToggle, UikButton, UikHeadline, UikContentTitle } from '../../@uik';
 
 export class Report extends Component {
   state = {
@@ -18,7 +13,7 @@ export class Report extends Component {
         month: 4,
         day: 21
       },
-      pointsEarned: 0,
+      pointsEarned: 50,
       pointsExpected: 356,
       questions: [
         {
@@ -58,7 +53,7 @@ export class Report extends Component {
           amount: 0
         },
         {
-          title: 'How many asks have you made this week?',
+          title: 'How many trips to coffee shops have you made this week?',
           pointsEach: 15,
           creditForEach: true,
           pointsEarned: 0,
@@ -67,7 +62,7 @@ export class Report extends Component {
           amount: 0
         },
         {
-          title: 'How many asks have you made this week?',
+          title: 'How many pastors have you talked to this week?',
           pointsEach: 15,
           creditForEach: true,
           pointsEarned: 0,
@@ -82,17 +77,26 @@ export class Report extends Component {
   render() {
     return (
       <div style={{ padding: '30px' }}>
-        <UikHeadline>Weekly Report</UikHeadline>
-        <UikHeadlineDesc>
-          {this.state.report.startDate.month} {this.state.report.startDate.day}
-        </UikHeadlineDesc>
+        <UikHeadline style={{ marginLeft: '20px' }}>Weekly Report</UikHeadline>
+        <div>
+          <WeekProgressChart
+            pointsExpected={this.state.report.pointsExpected}
+            pointsEarned={this.state.report.pointsEarned}
+          />
+        </div>
         <div
           style={{
             display: 'flex',
             justifyContent: 'center'
           }}
         >
-          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'flex-start'
+            }}
+          >
             {this.state.report.questions.map(question => {
               return (
                 <QuestionChart
