@@ -36,7 +36,13 @@ export const WeekProgressChart = props => {
               data={{
                 datasets: [
                   {
-                    data: [pointsEarned]
+                    data: [
+                      pointsEarned,
+                      pointsEarned < pointsExpected
+                        ? pointsExpected - pointsEarned
+                        : 0
+                    ],
+                    backgroundColor: ['#FFD166', '#CCC']
                   }
                 ]
               }}

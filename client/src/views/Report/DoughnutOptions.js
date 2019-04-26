@@ -25,5 +25,10 @@ export const DoughnutOptions = {
   },
   tooltips: {
     enabled: false
+  },
+  elements: {
+    arc: {
+      borderWidth: 0
+    }
   }
 };

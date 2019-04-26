@@ -13,17 +13,21 @@ import { DoughnutOptions } from './DoughnutOptions';
 
 export const QuestionChart = props => {
   const {
+    id,
     title,
     amount,
     pointsEach,
     creditForEach,
     pointsExpected,
-    comment
+    comment,
+    handleChange
   } = props;
 
-  const pointsEarned = (creditForEach, amount, pointsEach) => {
+  const calculatePointsEarned = (creditForEach, amount, pointsEach) => {
     return creditForEach ? amount * pointsEach : amount > 0 ? pointsEach : 0;
   };
+
+  const pointsEarned = calculatePointsEarned(creditForEach, amount, pointsEach);
 
   const styles = {
     width: '300px',
@@ -59,7 +63,13 @@ export const QuestionChart = props => {
               data={{
                 datasets: [
                   {
-                    data: [100]
+                    data: [
+                      pointsEarned,
+                      pointsEarned < pointsExpected
+                        ? pointsExpected - pointsEarned
+                        : 0
+                    ],
+                    backgroundColor: ['#0D3B95', '#CCC']
                   }
                 ],
 
@@ -79,10 +89,10 @@ export const QuestionChart = props => {
                 width: '100%'
               }}
             >
-              <h1>{amount}</h1>
+              <input data-id={id} defaultValue={amount} onBlur={handleChange} />
               <UikDivider />
               <h3 style={{ marginTop: '10px', marginBottom: '0px' }}>
-                {pointsEarned(creditForEach, amount, pointsEach)}
+                {pointsEarned}
               </h3>
               <UikContentTitle
                 style={{
