@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { AuthConsumer } from '../../utils/AuthContext';
 import { UikWidget, UikButton, UikWidgetHeader } from '../../@uik';
 import { LoginForm } from './LoginForm';
-import { navigate } from '@reach/router';
 
 export class Login extends Component {
   render() {
@@ -18,8 +17,7 @@ export class Login extends Component {
           >
             <UikWidgetHeader noDivider>Login</UikWidgetHeader>
             {isAuth ? (
-              // <UikButton onClick={logout}>logout</UikButton>
-              navigate(`/current`)
+              <UikButton onClick={logout}>logout</UikButton>
             ) : (
               <LoginForm onLogin={login} />
             )}

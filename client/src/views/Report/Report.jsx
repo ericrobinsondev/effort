@@ -64,7 +64,7 @@ export class Report extends Component {
       4: {
         id: 4,
         title: 'How many thank you notes have you written this week?',
-        pointsEach: 15,
+        pointsEach: 5,
         creditForEach: true,
         pointsEarned: 0,
         pointsExpected: 45,
@@ -74,7 +74,7 @@ export class Report extends Component {
       5: {
         id: 5,
         title: 'How many pastors have you talked to this week?',
-        pointsEach: 15,
+        pointsEach: 7,
         creditForEach: true,
         pointsEarned: 0,
         pointsExpected: 45,
