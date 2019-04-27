@@ -92,11 +92,26 @@ export const QuestionChart = props => {
               {creditForEach ? (
                 <input
                   data-id={id}
+                  size={3}
                   defaultValue={amount}
                   onBlur={handleChange}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    fontSize: '28pt',
+                    textAlign: 'center'
+                  }}
                 />
               ) : (
-                <select data-id={id} value={amount} onChange={handleChange}>
+                <select
+                  data-id={id}
+                  value={amount}
+                  onChange={handleChange}
+                  style={{
+                    border: '1px solid #fff',
+                    backgroundColor: 'transparent'
+                  }}
+                >
                   <option value='0'>No</option>
                   <option value='1'>Yes</option>
                 </select>

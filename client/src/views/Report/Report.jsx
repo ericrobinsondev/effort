@@ -63,7 +63,7 @@ export class Report extends Component {
       },
       4: {
         id: 4,
-        title: 'How many trips to coffee shops have you made this week?',
+        title: 'How many thank you notes have you written this week?',
         pointsEach: 15,
         creditForEach: true,
         pointsEarned: 0,
@@ -115,7 +115,6 @@ export class Report extends Component {
   };
 
   render() {
-    console.log(this.state.questions[0]);
     return (
       <div style={{ padding: '30px' }}>
         <UikHeadline style={{ marginLeft: '20px' }}>Weekly Report</UikHeadline>
