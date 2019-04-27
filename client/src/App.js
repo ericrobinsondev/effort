@@ -13,15 +13,15 @@ class App extends Component {
     return (
       <div className='App'>
         <AuthProvider>
-          <Link to='/'>Home</Link>
+          {/* <Link to='/'>Home</Link>
           <Link to='/'>Landing</Link>
-          <Link to='/login'>Login</Link>
+          <Link to='/login'>Login</Link> */}
           <Router primary={false}>
             {/* <Home path='/' /> */}
-            <ProtectedRoute path='/' component={Layout} altComponent={Landing}>
+            <ProtectedRoute path='/' component={Layout}>
               <Report path='current' component={Report} />
             </ProtectedRoute>
-            <ProtectedRoute path='/landing' component={Landing} />
+            {/* <ProtectedRoute path='/landing' component={Landing} /> */}
             <Login path='/login' />
           </Router>
         </AuthProvider>

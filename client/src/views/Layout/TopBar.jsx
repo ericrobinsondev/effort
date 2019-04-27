@@ -18,15 +18,15 @@ export const TopBar = () => {
         <UikTopBarTitle>Measure Effort</UikTopBarTitle>
         <UikDivider margin vertical />
         <UikTopBarLinkContainer>
-          <UikTopBarLink Component={Link} to='/'>
+          {/* <UikTopBarLink Component={Link} to='/'>
             Home
-          </UikTopBarLink>
+          </UikTopBarLink> */}
           <UikTopBarLink Component={Link} to='/current'>
             Current Report
           </UikTopBarLink>
-          <UikTopBarLink Component={Link} to='/reports'>
+          {/* <UikTopBarLink Component={Link} to='/reports'>
             Reports
-          </UikTopBarLink>
+          </UikTopBarLink> */}
         </UikTopBarLinkContainer>
       </UikTopBarSection>
 
