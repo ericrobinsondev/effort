@@ -4,9 +4,13 @@
   "private": true,
   "dependencies": {
     "@reach/router": "^1.2.1",
+    "chart.js": "^2.8.0",
     "classnames": "^2.2.6",
     "formik": "^1.5.2",
+    "lodash.defaultsdeep": "^4.6.0",
+    "node-sass": "^4.11.0",
     "react": "^16.8.6",
+    "react-chartjs-2": "^2.7.6",
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.8"
   },
