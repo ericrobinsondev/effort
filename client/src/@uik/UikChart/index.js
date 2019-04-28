@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 import defaultsDeep from 'lodash.defaultsdeep';
-import { defaults as chartjsDefaults, Doughnut, Line } from 'react-chartjs-2';
+import { defaults as chartjsDefaults, Doughnut, Bar } from 'react-chartjs-2';
 
 import createCustomTooltip from './CustomTooltip';
 import cls from './chartjs.scss';
@@ -135,8 +135,8 @@ export default class UikChart extends PureComponent {
       <div className={classnames(cls.wrapper, className)}>
         <div ref={this.setRef('wrapper')} className={cls.canvasWrapper}>
           <div className={cls.tooltipWrapper} style={sizecls}>
-            {chartType === 'Line' ? (
-              <Line
+            {chartType === 'Bar' ? (
+              <Bar
                 ref={this.setRef('chart')}
                 data={data}
                 id={id || 'chart'}

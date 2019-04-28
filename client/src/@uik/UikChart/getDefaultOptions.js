@@ -5,7 +5,7 @@
 export default valueFormatter => ({
   animation: false,
   hover: {
-    mode: 'label',
+    mode: 'label'
   },
   responsive: true,
   maintainAspectRatio: false,
@@ -16,46 +16,49 @@ export default valueFormatter => ({
     position: 'nearest',
     callbacks: {
       labelColor: (tooltipItem, chartInstance) => {
-        const meta = chartInstance.getDatasetMeta(tooltipItem.datasetIndex)
-        const activeElement = meta.data[tooltipItem.index]
-        const view = activeElement._view // eslint-disable-line
+        const meta = chartInstance.getDatasetMeta(tooltipItem.datasetIndex);
+        const activeElement = meta.data[tooltipItem.index];
+        const view = activeElement._view; // eslint-disable-line
         return {
           borderColor: 'transparent',
-          backgroundColor: view.backgroundColor,
-        }
-      },
-    },
+          backgroundColor: view.backgroundColor
+        };
+      }
+    }
   },
   legend: {
-    display: false,
+    display: false
   },
   scales: {
-    yAxes: [{
-      stacked: false,
-      gridLines: {
-        zeroLineWidth: 1,
-        zeroLineColor: '#EAEDF3',
-        color: '#EAEDF3',
-      },
-      ticks: {
-        beginAtZero: true,
-        callback: valueFormatter,
-        maxTicksLimit: 5,
-        fontColor: '#9EA0A5',
-      },
-    }],
-    xAxes: [{
-      stacked: false,
-      gridLines: {
-        color: 'transparent',
-        zeroLineWidth: 2,
-        drawBorder: false,
-      },
-      ticks: {
-        fontColor: '#9EA0A5',
-      },
-      barPercentage: 0.7,
-      maxBarThickness: 12,
-    }],
-  },
-})
+    yAxes: [
+      {
+        stacked: false,
+        gridLines: {
+          zeroLineWidth: 1,
+          zeroLineColor: '#EAEDF3',
+          color: '#EAEDF3'
+        },
+        ticks: {
+          beginAtZero: true,
+          callback: valueFormatter,
+          maxTicksLimit: 5,
+          fontColor: '#9EA0A5'
+        }
+      }
+    ],
+    xAxes: [
+      {
+        stacked: false,
+        gridLines: {
+          color: 'transparent',
+          zeroLineWidth: 2,
+          drawBorder: false
+        },
+        ticks: {
+          fontColor: '#9EA0A5'
+        },
+        barPercentage: 0.6
+      }
+    ]
+  }
+});
