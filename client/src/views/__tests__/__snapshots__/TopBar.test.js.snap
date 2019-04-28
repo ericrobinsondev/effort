@@ -23,23 +23,10 @@ Object {
             class="uik-top-bar-link-container__wrapper"
           >
             <a
-              aria-current="page"
-              class="uik-top-bar-link__wrapper"
-              href="/"
-            >
-              Home
-            </a>
-            <a
               class="uik-top-bar-link__wrapper"
               href="/current"
             >
               Current Report
-            </a>
-            <a
-              class="uik-top-bar-link__wrapper"
-              href="/reports"
-            >
-              Reports
             </a>
           </div>
         </div>
@@ -79,23 +66,10 @@ Object {
           class="uik-top-bar-link-container__wrapper"
         >
           <a
-            aria-current="page"
-            class="uik-top-bar-link__wrapper"
-            href="/"
-          >
-            Home
-          </a>
-          <a
             class="uik-top-bar-link__wrapper"
             href="/current"
           >
             Current Report
-          </a>
-          <a
-            class="uik-top-bar-link__wrapper"
-            href="/reports"
-          >
-            Reports
           </a>
         </div>
       </div>
