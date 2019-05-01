@@ -17,14 +17,16 @@ export const verifyToken = token =>
   });
 
 export const signup = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, firstName, lastName } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).send({ message: 'Email and password required.' });
+  if (!email || !password || !firstName || !lastName) {
+    return res.status(400).send({
+      message: 'Email, password, first name, and last name required.'
+    });
   }
 
   try {
-    const user = await User.create({ email, password });
+    const user = await User.create({ email, password, firstName, lastName });
     const token = newToken(user);
 
     return res.status(201).send({ token });

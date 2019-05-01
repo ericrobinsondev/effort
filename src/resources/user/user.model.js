@@ -13,42 +13,68 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    role: {
+    firstName: {
       type: String,
-      required: true,
-      default: 'user',
-      enum: ['user', 'admin']
+      trim: true,
+      required: true
+    },
+    lastName: {
+      type: String,
+      trim: true,
+      required: true
+    },
+    adminOf: [
+      {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'ministry'
+      }
+    ],
+    coachOfGroups: [
+      {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'group'
+      }
+    ],
+    coachofUsers: [
+      {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'user'
+      }
+    ],
+    groupMember: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'group'
     }
   },
-  {timestamps: true}
+  { timestamps: true }
 );
 
-userSchema.pre('save', function (next) {
+userSchema.pre('save', function(next) {
   if (!this.isModified('password')) {
-    return next()
+    return next();
   }
 
   bcrypt.hash(this.password, 8, (err, hash) => {
     if (err) {
-      return next(err)
+      return next(err);
     }
 
-    this.password = hash
-    next()
-  })
+    this.password = hash;
+    next();
+  });
 });
 
-userSchema.methods.checkPassword = function (password) {
-  const passwordHash = this.password
+userSchema.methods.checkPassword = function(password) {
+  const passwordHash = this.password;
   return new Promise((resolve, reject) => {
     bcrypt.compare(password, passwordHash, (err, same) => {
       if (err) {
-        return reject(err)
+        return reject(err);
       }
 
-      resolve(same)
-    })
-  })
+      resolve(same);
+    });
+  });
 };
 
 export const User = mongoose.model('user', userSchema);
