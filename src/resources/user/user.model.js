@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema(
         ref: 'user'
       }
     ],
-    groupMember: {
+    group: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'group'
     }
