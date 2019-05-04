@@ -52,7 +52,12 @@ export const LoginForm = props => {
               value={values.password}
             />
             {errors.password && touched.password && errors.password}
-            <UikButton primary type='submit' disabled={isSubmitting}>
+            <UikButton
+              primary
+              type='submit'
+              disabled={isSubmitting}
+              isLoading={isSubmitting}
+            >
               Login
             </UikButton>
           </UikFormInputGroup>

@@ -3,7 +3,11 @@ import React from 'react';
 const AuthContext = React.createContext();
 
 class AuthProvider extends React.Component {
-  state = { isAuth: localStorage.getItem('token') ? true : false };
+  state = {
+    isAuth: localStorage.getItem('token') ? true : false,
+    token: localStorage.getItem('token') ? localStorage.getItem('token') : '',
+    loginError: null
+  };
 
   constructor() {
     super();
@@ -12,10 +16,36 @@ class AuthProvider extends React.Component {
   }
 
   login(values) {
-    // setting timeout to mimic an async login
-    // TODO: Update with the token
-    localStorage.setItem('token', 'logged in');
-    setTimeout(() => this.setState({ isAuth: true }), 1000);
+    const { email, password } = values;
+    fetch('/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    })
+      .then(response =>
+        response.json().then(data => ({
+          status: response.status,
+          token: data.token,
+          message: data.message
+        }))
+      )
+      .then(response => {
+        if (response.status === 200) {
+          this.setState({
+            token: response.token,
+            isAuth: true,
+            loginError: null
+          });
+          localStorage.setItem('token', response.token);
+        } else {
+          this.setState({ loginError: response.message });
+        }
+      })
+      .catch(error => {
+        this.setState({ loginError: error.message });
+      });
   }
   logout() {
     this.setState({ isAuth: false });
@@ -28,7 +58,8 @@ class AuthProvider extends React.Component {
         value={{
           isAuth: this.state.isAuth,
           login: this.login,
-          logout: this.logout
+          logout: this.logout,
+          loginError: this.state.loginError
         }}
       >
         {this.props.children}
