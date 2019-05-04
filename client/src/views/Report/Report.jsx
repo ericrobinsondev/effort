@@ -30,8 +30,13 @@ export class Report extends Component {
   }
 
   changeAmount = event => {
-    const idToUpdate = event.target.getAttribute('data-id');
-    const question = this.state.questions[idToUpdate];
+    const idToUpdate = parseInt(event.target.getAttribute('data-id'), 10);
+    const question = this.state.questions.find(
+      question => question.id === idToUpdate
+    );
+    const questionIndex = this.state.questions.findIndex(
+      question => question.id === idToUpdate
+    );
     const pointsEarned = this.calculatePointsEarned(
       question.creditForEach,
       event.target.value,
@@ -41,14 +46,18 @@ export class Report extends Component {
     this.setState({
       pointsEarned:
         this.state.pointsEarned + (pointsEarned - question.pointsEarned),
-      questions: {
-        ...this.state.questions,
-        [idToUpdate]: {
-          ...this.state.questions[idToUpdate],
+      questions: [
+        ...this.state.questions.slice(0, questionIndex),
+        {
+          ...this.state.questions[questionIndex],
           amount: event.target.value,
-          pointsEarned: pointsEarned
-        }
-      }
+          pointsEarned
+        },
+        ...this.state.questions.slice(
+          questionIndex + 1,
+          this.state.questions.length
+        )
+      ]
     });
   };
 
@@ -81,7 +90,7 @@ export class Report extends Component {
             }}
           >
             {this.state.questions
-              ? Object.values(this.state.questions).map(question => {
+              ? this.state.questions.map(question => {
                   return (
                     <QuestionChart
                       id={question.id}

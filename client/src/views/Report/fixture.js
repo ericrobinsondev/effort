@@ -1,8 +1,6 @@
 export const mockAPI = {
   loadReportData: () => {
     return {
-      id: 123,
-      userId: 4321,
       startDate: {
         year: 2019,
         month: 4,
@@ -10,8 +8,8 @@ export const mockAPI = {
       },
       pointsEarned: 0,
       pointsExpected: 356,
-      questions: {
-        0: {
+      questions: [
+        {
           id: 0,
           title: 'How many dials did you make?',
           pointsEach: 5,
@@ -21,7 +19,7 @@ export const mockAPI = {
           comment: '',
           amount: 0
         },
-        1: {
+        {
           id: 1,
           title: 'How many names did you brainstorm?',
           pointsEach: 1,
@@ -31,7 +29,7 @@ export const mockAPI = {
           comment: '',
           amount: 0
         },
-        2: {
+        {
           id: 2,
           title: 'Have you completed your admin work this week?',
           pointsEach: 35,
@@ -41,7 +39,7 @@ export const mockAPI = {
           comment: '',
           amount: 0
         },
-        3: {
+        {
           id: 3,
           title: 'How many asks have you made this week?',
           pointsEach: 15,
@@ -51,7 +49,7 @@ export const mockAPI = {
           comment: '',
           amount: 0
         },
-        4: {
+        {
           id: 4,
           title: 'How many thank you notes have you written this week?',
           pointsEach: 5,
@@ -61,7 +59,7 @@ export const mockAPI = {
           comment: '',
           amount: 0
         },
-        5: {
+        {
           id: 5,
           title: 'How many pastors have you talked to this week?',
           pointsEach: 7,
@@ -71,7 +69,7 @@ export const mockAPI = {
           comment: '',
           amount: 0
         }
-      },
+      ],
       reportComment: ''
     };
   },
