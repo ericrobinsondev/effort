@@ -2,10 +2,6 @@ import mongoose from 'mongoose';
 
 const reportSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true
-    },
     coaches: [
       {
         type: mongoose.SchemaTypes.ObjectId,
@@ -14,7 +10,8 @@ const reportSchema = new mongoose.Schema(
     ],
     group: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'group'
+      ref: 'group',
+      required: true
     },
     ministry: {
       type: mongoose.SchemaTypes.ObjectId,

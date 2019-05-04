@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import { createReport, updateReport, getReport } from './report.controller';
+import {
+  createReport,
+  updateReport,
+  getReport,
+  getCurrentReport
+} from './report.controller';
 import {
   createResponse,
   updateResponse,
@@ -13,6 +18,8 @@ const router = Router();
 router.route('/').post(createReport);
 
 // /api/report/ID
+
+router.route('/current').get(getCurrentReport);
 router.route('/:id').get(getReport);
 router.route('/:id').put(updateReport);
 
