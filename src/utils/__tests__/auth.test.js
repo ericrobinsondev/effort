@@ -45,7 +45,14 @@ describe('Authentication:', () => {
     test('creates user and sends new token from user', async () => {
       expect.assertions(2);
       const userEmail = 'user@domain.com';
-      const req = { body: { email: userEmail, password: 'simplepassword' } };
+      const req = {
+        body: {
+          email: userEmail,
+          password: 'simplepassword',
+          firstName: 'firstName',
+          lastName: 'lastName'
+        }
+      };
       const res = {
         status(status) {
           expect(status).toBe(201);
@@ -104,7 +111,9 @@ describe('Authentication:', () => {
 
       await User.create({
         email: 'test@test.com',
-        password: 'right-password'
+        password: 'right-password',
+        firstName: 'firstName',
+        lastName: 'lastName'
       });
 
       const req = {
@@ -127,7 +136,9 @@ describe('Authentication:', () => {
       expect.assertions(2);
       const fields = {
         email: 'test@test.com',
-        password: 'nodejs'
+        password: 'nodejs',
+        firstName: 'firstName',
+        lastName: 'lastName'
       };
 
       const savedUser = await User.create(fields);
@@ -205,7 +216,9 @@ describe('Authentication:', () => {
     test('finds user from token and passes on', async () => {
       const user = await User.create({
         email: 'test@test.com',
-        password: 'anna'
+        password: 'anna',
+        firstName: 'firstName',
+        lastName: 'lastName'
       });
 
       const token = `Bearer ${newToken(user)}`;

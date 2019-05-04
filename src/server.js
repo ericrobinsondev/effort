@@ -6,6 +6,9 @@ import path from 'path';
 import config from './config';
 import { connect } from './utils/db';
 import { signup, signin, authRequired } from './utils/auth';
+import { ministryRouter } from './resources/ministry/ministry.router';
+import { reportRouter } from './resources/report/report.router';
+import { groupRouter } from './resources/group/group.router';
 
 export const app = express();
 
@@ -20,6 +23,9 @@ app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '/../client/build')));
 
 app.use('/api', authRequired);
+app.use('/api/ministry', ministryRouter);
+app.use('/api/report', reportRouter);
+app.use('/api/group', groupRouter);
 app.post('/signup', signup);
 app.post('/signin', signin);
 
