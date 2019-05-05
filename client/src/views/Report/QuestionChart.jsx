@@ -20,7 +20,8 @@ export const QuestionChart = props => {
     creditForEach,
     pointsExpected,
     comment,
-    handleChange
+    handleChange,
+    handleCommentChange
   } = props;
 
   const calculatePointsEarned = (creditForEach, amount, pointsEach) => {
@@ -93,8 +94,8 @@ export const QuestionChart = props => {
                 <input
                   data-id={id}
                   size={3}
-                  defaultValue={amount}
-                  onBlur={handleChange}
+                  value={amount}
+                  onChange={handleChange}
                   style={{
                     background: 'transparent',
                     border: 'none',
@@ -134,8 +135,10 @@ export const QuestionChart = props => {
         </UikWidgetContent>
       </UikWidget>
       <UikInput
+        data-comment-id={id}
         label='Comment'
-        defaultValue={comment}
+        onChange={handleCommentChange}
+        value={comment}
         style={{ width: '89%' }}
       />
     </div>
