@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { QuestionChart } from './QuestionChart';
 import { WeekProgressChart } from './WeekProgressChart';
 // import { GroupChart } from './GroupChart';
-import { UikToggle, UikButton, UikHeadline, UikContentTitle } from '../../@uik';
+import { UikButton, UikHeadline, UikContentTitle } from '../../@uik';
 // import { mockAPI } from './fixture';
 import { dateInWords, weekStart, weekEnd } from '../../utils/helpers';
 
@@ -71,6 +71,20 @@ export class Report extends Component {
                 comment: matchingAnswer.comment,
                 pointsEarned: matchingAnswer.pointsEarned,
                 amount: matchingAnswer.amount
+              };
+            })
+          });
+        } else if (response.status === 404) {
+          this.setState({
+            needToCreateResponse: true,
+            coachComment: ' ',
+            totalPointsEarned: 0,
+            questions: this.state.questions.map(question => {
+              return {
+                ...question,
+                comment: '',
+                pointsEarned: 0,
+                amount: 0
               };
             })
           });
@@ -169,7 +183,18 @@ export class Report extends Component {
         })
       })
     })
-      .then(alert('Report saved'))
+      .then(response =>
+        response.json().then(data => ({
+          status: response.status,
+          ...data,
+          message: response.message
+        }))
+      )
+      .then(response => {
+        response.status === 201 || response.status === 200
+          ? alert('Saved successfully')
+          : alert(`Error: ${response.message}`);
+      })
       .finally(this.setState({ submitting: false }))
       .catch(error => console.error(error));
   };
@@ -218,10 +243,12 @@ export class Report extends Component {
                         title={question.title}
                         pointsEach={question.pointsEach}
                         creditForEach={question.creditForEach}
-                        pointsEarned={question.pointsEarned}
+                        pointsEarned={
+                          question.pointsEarned ? question.pointsEarned : 0
+                        }
                         pointsExpected={question.pointsExpected}
-                        comment={question.comment}
-                        amount={question.amount}
+                        comment={question.comment ? question.comment : ' '}
+                        amount={question.amount ? question.amount : 0}
                         handleChange={this.changeAmount}
                         handleCommentChange={this.handleCommentChange}
                       />
@@ -240,7 +267,7 @@ export class Report extends Component {
               value={this.state.coachComment}
             />
           </div>
-          <div
+          {/* <div
             style={{
               display: 'flex',
               justifyContent: 'flex-end',
@@ -248,7 +275,7 @@ export class Report extends Component {
             }}
           >
             <UikToggle defaultChecked label='Active Week' />
-          </div>
+          </div> */}
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <UikButton
               primary
