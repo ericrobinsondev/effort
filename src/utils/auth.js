@@ -51,7 +51,7 @@ export const signin = async (req, res) => {
     }
 
     const token = newToken(user);
-    return res.status(201).send({ token });
+    return res.status(200).send({ token });
   } catch (e) {
     console.error(e);
     return res.status(401).send({ message: 'User not found.', e });

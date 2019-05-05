@@ -34,13 +34,7 @@ const reportSchema = new mongoose.Schema(
         creditForEach: {
           type: Boolean
         },
-        pointsExpected: Number,
-        pointsEarned: Number,
-        comment: {
-          type: String,
-          trim: true
-        },
-        amount: Number
+        pointsExpected: Number
       }
     ],
     pointsExpected: {

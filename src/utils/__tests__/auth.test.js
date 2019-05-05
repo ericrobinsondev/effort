@@ -146,7 +146,7 @@ describe('Authentication:', () => {
       const req = { body: fields };
       const res = {
         status(status) {
-          expect(status).toBe(201);
+          expect(status).toBe(200);
           return this;
         },
         async send(result) {

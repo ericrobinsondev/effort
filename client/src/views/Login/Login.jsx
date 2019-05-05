@@ -7,7 +7,7 @@ export class Login extends Component {
   render() {
     return (
       <AuthConsumer>
-        {({ isAuth, login, logout }) => (
+        {({ isAuth, login, logout, loginError }) => (
           <UikWidget
             padding
             style={{
@@ -19,7 +19,10 @@ export class Login extends Component {
             {isAuth ? (
               <UikButton onClick={logout}>logout</UikButton>
             ) : (
-              <LoginForm onLogin={login} />
+              <div>
+                <LoginForm onLogin={login} />
+                <p style={{ color: '#F00' }}>{loginError}</p>
+              </div>
             )}
           </UikWidget>
         )}

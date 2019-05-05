@@ -17,13 +17,15 @@ export const createResponse = async (req, res) => {
 export const getResponse = async (req, res) => {
   try {
     const doc = await Response.findOne({
-      response: req.params.responseID,
+      report: req.params.id,
       createdBy: req.user
-    })
-      .lean()
-      .exec();
+    });
 
-    res.status(200).json({ data: doc });
+    if (doc) {
+      res.status(200).json({ data: doc });
+    } else {
+      res.status(404).json({ message: 'No response created yet' });
+    }
   } catch (e) {
     console.error(e);
     res.status(400).end();

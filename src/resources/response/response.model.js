@@ -42,7 +42,6 @@ const responseSchema = new mongoose.Schema(
     ],
     coachComment: {
       type: String,
-      trim: true,
       required: true,
       default: ''
     }
