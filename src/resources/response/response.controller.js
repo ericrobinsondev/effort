@@ -28,7 +28,7 @@ export const getResponse = async (req, res) => {
     }
   } catch (e) {
     console.error(e);
-    res.status(400).end();
+    res.status(400).json({ message: "Couldn't save." });
   }
 };
 
