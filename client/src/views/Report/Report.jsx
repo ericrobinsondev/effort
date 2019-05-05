@@ -4,6 +4,7 @@ import { WeekProgressChart } from './WeekProgressChart';
 import { GroupChart } from './GroupChart';
 import { UikToggle, UikButton, UikHeadline, UikContentTitle } from '../../@uik';
 import { mockAPI } from './fixture';
+import { dateInWords, weekStart, weekEnd } from '../../utils/helpers';
 
 export class Report extends Component {
   constructor(props) {
@@ -17,12 +18,21 @@ export class Report extends Component {
   };
 
   componentDidMount() {
-    this.setState(this.loadReportData());
+    this.loadReportData();
     this.setState({ groupPoints: this.loadGroupPoints() });
   }
 
   loadReportData() {
-    return mockAPI.loadReportData();
+    fetch('/api/report/current', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then(response => response.json())
+      .then(response => this.setState(response.data))
+      .catch(error => console.error(error));
   }
 
   loadGroupPoints() {
@@ -30,13 +40,12 @@ export class Report extends Component {
   }
 
   changeAmount = event => {
-    const idToUpdate = parseInt(event.target.getAttribute('data-id'), 10);
-    const question = this.state.questions.find(
-      question => question.id === idToUpdate
-    );
+    const idToUpdate = event.target.getAttribute('data-id');
     const questionIndex = this.state.questions.findIndex(
-      question => question.id === idToUpdate
+      // eslint-disable-next-line eqeqeq
+      question => question._id == idToUpdate
     );
+    const question = this.state.questions[questionIndex];
     const pointsEarned = this.calculatePointsEarned(
       question.creditForEach,
       event.target.value,
@@ -68,7 +77,11 @@ export class Report extends Component {
   render() {
     return (
       <div style={{ padding: '30px' }}>
-        <UikHeadline style={{ marginLeft: '20px' }}>Weekly Report</UikHeadline>
+        <UikHeadline style={{ marginLeft: '20px' }}>
+          Weekly Report:{' '}
+          {`${dateInWords(weekStart(this.state.dueDate))} \u2014
+            ${dateInWords(weekEnd(this.state.dueDate))}`}
+        </UikHeadline>
         <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
           <WeekProgressChart
             pointsExpected={this.state.pointsExpected}
@@ -93,7 +106,7 @@ export class Report extends Component {
               ? this.state.questions.map(question => {
                   return (
                     <QuestionChart
-                      id={question.id}
+                      id={question._id}
                       key={question.title}
                       title={question.title}
                       pointsEach={question.pointsEach}

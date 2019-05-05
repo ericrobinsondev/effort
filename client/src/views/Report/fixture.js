@@ -1,11 +1,7 @@
 export const mockAPI = {
   loadReportData: () => {
     return {
-      startDate: {
-        year: 2019,
-        month: 4,
-        day: 21
-      },
+      dueDate: '2019-04-23T12:58:48.000+00:00',
       pointsEarned: 0,
       pointsExpected: 356,
       questions: [
