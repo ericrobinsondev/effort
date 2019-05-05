@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { QuestionChart } from './QuestionChart';
 import { WeekProgressChart } from './WeekProgressChart';
-import { GroupChart } from './GroupChart';
+// import { GroupChart } from './GroupChart';
 import { UikToggle, UikButton, UikHeadline, UikContentTitle } from '../../@uik';
-import { mockAPI } from './fixture';
+// import { mockAPI } from './fixture';
 import { dateInWords, weekStart, weekEnd } from '../../utils/helpers';
 
 export class Report extends Component {
@@ -21,7 +21,7 @@ export class Report extends Component {
 
   componentDidMount() {
     this.loadReportData();
-    this.setState({ groupPoints: this.loadGroupPoints() });
+    // this.setState({ groupPoints: this.loadGroupPoints() });
   }
 
   loadReportData() {
@@ -78,9 +78,9 @@ export class Report extends Component {
       })
       .catch(error => console.error(error));
   }
-  loadGroupPoints() {
-    return mockAPI.loadGroupPoints();
-  }
+  // loadGroupPoints() {
+  //   return mockAPI.loadGroupPoints();
+  // }
 
   changeAmount = event => {
     const idToUpdate = event.target.getAttribute('data-id');
@@ -169,6 +169,7 @@ export class Report extends Component {
         })
       })
     })
+      .then(alert('Report saved'))
       .finally(this.setState({ submitting: false }))
       .catch(error => console.error(error));
   };
@@ -193,7 +194,7 @@ export class Report extends Component {
               pointsExpected={this.state.pointsExpected}
               pointsEarned={this.state.totalPointsEarned}
             />
-            <GroupChart groupPoints={this.state.groupPoints} />
+            {/* <GroupChart groupPoints={this.state.groupPoints} /> */}
           </div>
           <div
             style={{
