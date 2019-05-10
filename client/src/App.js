@@ -6,6 +6,7 @@ import { AuthProvider } from './utils/AuthContext';
 import { ProtectedRoute } from './utils/ProtectedRoute';
 import { Layout } from './views/Layout';
 import { Report } from './views/Report';
+import { Home } from './views/Home';
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
           <Router primary={false}>
             {/* <Home path='/' /> */}
             <ProtectedRoute path='/' component={Layout}>
+              <Home path='/' component={Home} />
               <Report path='current' component={Report} />
             </ProtectedRoute>
             {/* <ProtectedRoute path='/landing' component={Landing} /> */}

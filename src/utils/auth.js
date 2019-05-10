@@ -43,15 +43,23 @@ export const signin = async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ email }).exec();
+    var user = await User.findOne({ email }, '-createdAt -updatedAt -__v')
+      .populate('coachOfGroups', 'members')
+      .exec();
     const match = await user.checkPassword(password);
 
     if (!match) {
       return res.status(401).send({ message: 'Invalid password.' });
     }
-
     const token = newToken(user);
-    return res.status(200).send({ token });
+
+    user = user.toObject();
+    delete user['password'];
+
+    return res
+      .status(200)
+      .json({ token, user })
+      .end();
   } catch (e) {
     console.error(e);
     return res.status(401).send({ message: 'User not found.', e });
