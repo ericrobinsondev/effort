@@ -84,4 +84,16 @@ class AuthProvider extends React.Component {
 
 const AuthConsumer = AuthContext.Consumer;
 
-export { AuthProvider, AuthConsumer, AuthContext };
+const withAuthContext = Component => {
+  return props => {
+    return (
+      <AuthConsumer>
+        {({ user, isCoach }) => {
+          return <Component {...props} user={user} isCoach={isCoach()} />;
+        }}
+      </AuthConsumer>
+    );
+  };
+};
+
+export { AuthProvider, AuthConsumer, AuthContext, withAuthContext };

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { weekEnd } from '../../utils/helpers';
 
 const responseSchema = new mongoose.Schema(
   {
@@ -44,6 +45,16 @@ const responseSchema = new mongoose.Schema(
       type: String,
       required: true,
       default: ''
+    },
+    group: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'group',
+      required: true
+    },
+    dueDate: {
+      type: Date,
+      required: true,
+      default: weekEnd(new Date())
     }
   },
   { timestamps: true }

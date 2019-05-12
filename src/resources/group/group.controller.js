@@ -77,6 +77,7 @@ export const getGroupWeek = async (req, res) => {
         { members: { $in: [req.user] } }
       ]
     })
+      .populate('reports', ['dueDate'])
       .lean()
       .exec();
 
@@ -89,14 +90,29 @@ export const getGroupWeek = async (req, res) => {
         group: req.params.id
       }
     })
-      .select('_id totalPointsEarned createdBy')
+      .select('_id totalPointsEarned createdBy dueDate')
       .populate('createdBy', ['firstName', 'lastName'])
       .lean()
       .exec();
 
     if (!responseDoc) throw Error('Unauthorized');
 
-    res.status(200).json({ data: { group: groupDoc, responses: responseDoc } });
+    const reportDoc = await Report.findOne({
+      _id: req.params.reportId
+    }).select('dueDate _id');
+
+    if (!reportDoc) throw Error('Unable to find report');
+
+    res.status(200).json({
+      data: {
+        group: groupDoc,
+        responses: responseDoc,
+        report: {
+          _id: reportDoc._id,
+          dueDate: reportDoc.dueDate
+        }
+      }
+    });
   } catch (e) {
     console.error(e.message);
     sendErrorMessage(e, res);
