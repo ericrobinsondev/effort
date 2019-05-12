@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Group } from '../group/group.model';
 
 const reportSchema = new mongoose.Schema(
   {
@@ -47,5 +48,15 @@ const reportSchema = new mongoose.Schema(
 );
 
 reportSchema.index({ group: 1, dueDate: 1 }, { unique: true });
+
+reportSchema.post('save', async function(doc) {
+  try {
+    const groupDoc = await Group.findOneAndUpdate(doc.group, {
+      $addToSet: { reports: [doc._id] }
+    });
+  } catch (e) {
+    console.error(e);
+  }
+});
 
 export const Report = mongoose.model('report', reportSchema);
