@@ -8,8 +8,8 @@ export const TopBarCoach = () => {
       <UikTopBarLink Component={Link} to='/reports'>
         Reports
       </UikTopBarLink>
-      <UikTopBarLink Component={Link} to='/groups'>
-        Groups
+      <UikTopBarLink Component={Link} to='/group'>
+        Group
       </UikTopBarLink>
     </UikTopBarLinkContainer>
   );

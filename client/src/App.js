@@ -7,6 +7,7 @@ import { ProtectedRoute } from './utils/ProtectedRoute';
 import { Layout } from './views/Layout';
 import { Report } from './views/Report';
 import { Home } from './views/Home';
+import { Group } from './views/Group';
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
             <ProtectedRoute path='/' component={Layout}>
               <Home path='/' component={Home} />
               <Report path='current' component={Report} />
+              <Group path='group' component={Group} />
             </ProtectedRoute>
             {/* <ProtectedRoute path='/landing' component={Landing} /> */}
             <Login path='/login' />
