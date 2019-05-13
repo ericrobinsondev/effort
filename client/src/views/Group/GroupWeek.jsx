@@ -25,7 +25,7 @@ export class GroupWeek extends Component {
 
   fetchGroupWeekData() {
     const groupId = this.props.isCoach
-      ? this.props.user.coachOfGroups[0]
+      ? this.props.user.coachOfGroups[0]._id
       : this.props.user.group;
 
     const reportId = this.props.reportId ? this.props.reportId : '';
