@@ -1,5 +1,6 @@
 import config from '../config';
 import { User } from '../resources/user/user.model';
+import { Group } from '../resources/group/group.model';
 import jwt from 'jsonwebtoken';
 
 export const newToken = user => {
@@ -56,10 +57,7 @@ export const signin = async (req, res) => {
     user = user.toObject();
     delete user['password'];
 
-    return res
-      .status(200)
-      .json({ token, user })
-      .end();
+    return res.status(200).json({ token, user });
   } catch (e) {
     console.error(e);
     return res.status(401).send({ message: 'User not found.', e });

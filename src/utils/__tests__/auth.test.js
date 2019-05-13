@@ -149,13 +149,14 @@ describe('Authentication:', () => {
           expect(status).toBe(200);
           return this;
         },
-        async send(result) {
+        async json(result) {
           let user = await verifyToken(result.token);
           user = await User.findById(user.id)
             .lean()
             .exec();
           expect(user._id.toString()).toBe(savedUser._id.toString());
-        }
+        },
+        async send(result) {}
       };
 
       await signin(req, res);
