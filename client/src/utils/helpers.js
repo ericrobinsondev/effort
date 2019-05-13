@@ -11,3 +11,11 @@ export const weekEnd = date => {
 export const dateInWords = date => {
   return format(date, 'MMM D');
 };
+
+export const weekRangeInWords = date => {
+  return (
+    dateInWords(weekStart(date)) +
+    String.fromCharCode(8212) +
+    dateInWords(weekEnd(date))
+  );
+};

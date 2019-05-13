@@ -5,7 +5,8 @@ export const createResponse = async (req, res) => {
   try {
     const doc = await Response.create({
       ...req.body,
-      createdBy: req.user
+      createdBy: req.user,
+      group: req.user.group
     });
     res.status(201).json({ data: doc });
   } catch (e) {

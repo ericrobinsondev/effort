@@ -1,5 +1,8 @@
 import { Group } from './group.model';
-import { sendErrorMessage } from '../../utils/helpers';
+import { sendErrorMessage, weekEnd } from '../../utils/helpers';
+import { subDays } from 'date-fns';
+import { Report } from '../report/report.model';
+import { Response } from '../response/response.model';
 
 export const createGroup = async (req, res) => {
   try {
@@ -44,5 +47,74 @@ export const updateGroup = async (req, res) => {
   } catch (e) {
     console.error(e);
     res.status(400).end();
+  }
+};
+
+export const getGroupWeek = async (req, res) => {
+  try {
+    // Get current week's report if one not specified
+    if (!req.params.reportId) {
+      const dueDate = weekEnd(Date.now());
+      const report = await Report.findOne({
+        dueDate: {
+          $lte: dueDate,
+          $gt: subDays(dueDate, 6)
+        },
+        group: req.params.id,
+        $or: [
+          { group: req.user.group },
+          { group: { $in: [req.user.coachOfGroups] } }
+        ]
+      });
+      req.params.reportId = report._id;
+    }
+
+    const groupDoc = await Group.findOne({
+      _id: req.params.id,
+      $or: [
+        { admins: { $in: [req.user] } },
+        { coaches: { $in: [req.user] } },
+        { members: { $in: [req.user] } }
+      ]
+    })
+      .populate('reports', ['dueDate'])
+      .lean()
+      .exec();
+
+    if (!groupDoc) throw Error('Unauthorized');
+
+    const responseDoc = await Response.find({
+      report: {
+        _id: req.params.reportId,
+        createdBy: { $in: [req.user._id, ...req.user.coachOfGroups] },
+        group: req.params.id
+      }
+    })
+      .select('_id totalPointsEarned createdBy dueDate')
+      .populate('createdBy', ['firstName', 'lastName'])
+      .lean()
+      .exec();
+
+    if (!responseDoc) throw Error('Unauthorized');
+
+    const reportDoc = await Report.findOne({
+      _id: req.params.reportId
+    }).select('dueDate _id');
+
+    if (!reportDoc) throw Error('Unable to find report');
+
+    res.status(200).json({
+      data: {
+        group: groupDoc,
+        responses: responseDoc,
+        report: {
+          _id: reportDoc._id,
+          dueDate: reportDoc.dueDate
+        }
+      }
+    });
+  } catch (e) {
+    console.error(e.message);
+    sendErrorMessage(e, res);
   }
 };

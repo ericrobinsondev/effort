@@ -11,11 +11,16 @@ Object {
         <div
           class="uik-top-bar-section__wrapper"
         >
-          <h2
-            class="uik-top-bar-title__wrapper"
+          <a
+            aria-current="page"
+            href="/"
           >
-            Measure Effort
-          </h2>
+            <h2
+              class="uik-top-bar-title__wrapper"
+            >
+              Measure Effort
+            </h2>
+          </a>
           <div
             class="uik-divider__vertical uik-divider__margin"
           />
@@ -54,11 +59,16 @@ Object {
       <div
         class="uik-top-bar-section__wrapper"
       >
-        <h2
-          class="uik-top-bar-title__wrapper"
+        <a
+          aria-current="page"
+          href="/"
         >
-          Measure Effort
-        </h2>
+          <h2
+            class="uik-top-bar-title__wrapper"
+          >
+            Measure Effort
+          </h2>
+        </a>
         <div
           class="uik-divider__vertical uik-divider__margin"
         />

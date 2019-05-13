@@ -7,11 +7,14 @@ import 'jest-dom/extend-expect';
 afterEach(cleanup);
 
 const mockLogout = jest.fn();
+const mockisCoach = jest.fn();
 
 describe('<TopBar />', () => {
   it('should render correctly', () => {
     const tree = (
-      <AuthContext.Provider value={{ logout: mockLogout }}>
+      <AuthContext.Provider
+        value={{ logout: mockLogout, isCoach: mockisCoach }}
+      >
         <TopBar />
       </AuthContext.Provider>
     );
@@ -21,7 +24,9 @@ describe('<TopBar />', () => {
 
   it('should be connected to AuthContext logout', () => {
     const tree = (
-      <AuthContext.Provider value={{ logout: mockLogout }}>
+      <AuthContext.Provider
+        value={{ logout: mockLogout, isCoach: mockisCoach }}
+      >
         <TopBar />
       </AuthContext.Provider>
     );

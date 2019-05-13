@@ -6,6 +6,8 @@ import { AuthProvider } from './utils/AuthContext';
 import { ProtectedRoute } from './utils/ProtectedRoute';
 import { Layout } from './views/Layout';
 import { Report } from './views/Report';
+import { Group } from './views/Group';
+import GroupWeek from './views/Group/GroupWeek';
 
 class App extends Component {
   render() {
@@ -13,11 +15,12 @@ class App extends Component {
       <div className='App'>
         <AuthProvider>
           <Router primary={false}>
-            {/* <Home path='/' /> */}
             <ProtectedRoute path='/' component={Layout}>
+              <GroupWeek path='/' component={GroupWeek} />
               <Report path='current' component={Report} />
+              <Group path='group' component={Group} />
+              <GroupWeek path='group/week/:reportId' component={GroupWeek} />
             </ProtectedRoute>
-            {/* <ProtectedRoute path='/landing' component={Landing} /> */}
             <Login path='/login' />
           </Router>
         </AuthProvider>
