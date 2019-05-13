@@ -4,18 +4,6 @@ import { sendErrorMessage } from '../../utils/helpers';
 
 export const getUser = async (req, res) => {
   try {
-    console.log(req.params.id);
-    console.log(req.user._id);
-    if (req.params.id != req.user._id) {
-      if (
-        req.user.coachOfGroups[0] &&
-        req.user.coachOfGroups[0].members.includes(req.params.id)
-      ) {
-      } else {
-        throw Error('Unauthorized');
-      }
-    }
-
     const userDoc = await User.findOne({
       _id: req.params.id
     })
@@ -24,6 +12,23 @@ export const getUser = async (req, res) => {
       .exec();
 
     if (!userDoc) throw Error('User not found');
+
+    if (req.params.id != req.user._id) {
+      req.user = await User.findById(req.user._id)
+        .populate('coachOfGroups', 'members')
+        .lean()
+        .exec();
+      if (
+        req.user.coachOfGroups[0] &&
+        req.user.coachOfGroups[0].members.some(
+          member => member._id == req.params.id
+        )
+      ) {
+      } else if (req.user.group == userDoc.group) {
+      } else {
+        throw Error('Unauthorized');
+      }
+    }
 
     const responseDoc = await Response.find({
       createdBy: req.params.id

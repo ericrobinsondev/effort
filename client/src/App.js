@@ -8,6 +8,7 @@ import { Layout } from './views/Layout';
 import { Report } from './views/Report';
 import { Group } from './views/Group';
 import GroupWeek from './views/Group/GroupWeek';
+import User from './views/User/User';
 
 class App extends Component {
   render() {
@@ -20,6 +21,7 @@ class App extends Component {
               <Report path='current' component={Report} />
               <Group path='group' component={Group} />
               <GroupWeek path='group/week/:reportId' component={GroupWeek} />
+              <User path='user/:userId' component={User} />
             </ProtectedRoute>
             <Login path='/login' />
           </Router>
