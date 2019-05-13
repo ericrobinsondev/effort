@@ -43,6 +43,7 @@ export class GroupWeek extends Component {
           return {
             firstName: response.createdBy.firstName,
             lastName: response.createdBy.lastName,
+            createdBy: response.createdBy._id,
             totalPointsEarned: response.totalPointsEarned,
             _id: response._id
           };
@@ -102,7 +103,11 @@ export class GroupWeek extends Component {
                   this.state.responses.map(response => {
                     return (
                       <tr key={response._id}>
-                        <td>{`${response.firstName} ${response.lastName}`}</td>
+                        <td>
+                          <Link to={`/user/${response.createdBy}`}>
+                            {`${response.firstName} ${response.lastName}`}
+                          </Link>
+                        </td>
                         <td>{response.totalPointsEarned}</td>
                       </tr>
                     );
@@ -111,14 +116,14 @@ export class GroupWeek extends Component {
             </UikWidgetTable>
           </UikWidget>
         </div>
-        <div>
+        {/* <div>
           <UikHeadline>Report</UikHeadline>
           <p>
             <Link to={`/report/${this.state.report._id}`}>
               Report for week of {weekRangeInWords(this.state.report.dueDate)}
             </Link>
           </p>
-        </div>
+        </div> */}
       </div>
     );
   }

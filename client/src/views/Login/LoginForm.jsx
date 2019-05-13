@@ -20,7 +20,7 @@ export const LoginForm = props => {
       }}
       onSubmit={values => {
         props.onLogin(values);
-        setTimeout(() => navigate('/current'), 1500);
+        setTimeout(() => navigate('/'), 1500);
       }}
     >
       {({

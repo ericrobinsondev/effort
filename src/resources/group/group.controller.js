@@ -3,6 +3,7 @@ import { sendErrorMessage, weekEnd } from '../../utils/helpers';
 import { subDays } from 'date-fns';
 import { Report } from '../report/report.model';
 import { Response } from '../response/response.model';
+import mongoose from 'mongoose';
 
 export const createGroup = async (req, res) => {
   try {
@@ -18,7 +19,11 @@ export const getGroup = async (req, res) => {
   try {
     const doc = await Group.find({
       _id: req.params.id,
-      $or: [{ admins: { $in: [req.user] } }, { coaches: { $in: [req.user] } }]
+      $or: [
+        { admins: { $in: [req.user] } },
+        { coaches: { $in: [req.user] } },
+        { members: { $in: [req.user] } }
+      ]
     })
       .populate('members', ['firstName', 'lastName'])
       .populate('admins', ['firstName', 'lastName'])
@@ -55,7 +60,7 @@ export const getGroupWeek = async (req, res) => {
     // Get current week's report if one not specified
     if (!req.params.reportId) {
       const dueDate = weekEnd(Date.now());
-      const report = await Report.findOne({
+      let report = await Report.findOne({
         dueDate: {
           $lte: dueDate,
           $gt: subDays(dueDate, 6)
@@ -66,6 +71,30 @@ export const getGroupWeek = async (req, res) => {
           { group: { $in: [req.user.coachOfGroups] } }
         ]
       });
+
+      if (!report) {
+        report = await Report.findOne({
+          dueDate: {
+            $lte: dueDate,
+            $gt: subDays(dueDate, 13)
+          },
+          $or: [
+            { group: req.user.group },
+            { group: { $in: [req.user.coachOfGroups] } }
+          ]
+        });
+
+        if (report) {
+          var copiedCurrentReport = new Report(report);
+          copiedCurrentReport._id = mongoose.Types.ObjectId();
+          copiedCurrentReport.dueDate = dueDate;
+          report = await Report.create(
+            copiedCurrentReport.toObject({ minimize: false })
+          );
+        } else {
+          throw Error('Could not find current or previous report');
+        }
+      }
       req.params.reportId = report._id;
     }
 

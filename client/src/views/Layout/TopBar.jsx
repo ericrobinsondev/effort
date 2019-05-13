@@ -29,6 +29,9 @@ export const TopBar = () => {
                 <UikTopBarLink Component={Link} to='/current'>
                   Current Report
                 </UikTopBarLink>
+                <UikTopBarLink Component={Link} to='/group'>
+                  Group
+                </UikTopBarLink>
               </UikTopBarLinkContainer>
             )}
           </UikTopBarSection>
