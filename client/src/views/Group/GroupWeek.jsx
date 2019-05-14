@@ -45,7 +45,8 @@ export class GroupWeek extends Component {
             lastName: response.createdBy.lastName,
             createdBy: response.createdBy._id,
             totalPointsEarned: response.totalPointsEarned,
-            _id: response._id
+            _id: response._id,
+            report: response.report
           };
         });
 
@@ -108,7 +109,15 @@ export class GroupWeek extends Component {
                             {`${response.firstName} ${response.lastName}`}
                           </Link>
                         </td>
-                        <td>{response.totalPointsEarned}</td>
+                        <td>
+                          <Link
+                            to={`/user/${response.createdBy}/report/${
+                              response.report
+                            }`}
+                          >
+                            {response.totalPointsEarned}
+                          </Link>
+                        </td>
                       </tr>
                     );
                   })}

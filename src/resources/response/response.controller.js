@@ -20,7 +20,7 @@ export const getResponse = async (req, res) => {
     const doc = await Response.findOne({
       report: req.params.id,
       createdBy: req.user
-    });
+    }).populate('createdBy', 'firstName lastName');
 
     if (doc) {
       res.status(200).json({ data: doc });

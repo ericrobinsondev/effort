@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import { QuestionChart } from './QuestionChart';
 import { WeekProgressChart } from './WeekProgressChart';
+import { navigate } from '@reach/router';
 // import { GroupChart } from './GroupChart';
-import { UikButton, UikHeadline, UikContentTitle } from '../../@uik';
+import { UikButton, UikHeadline, UikContentTitle, UikSelect } from '../../@uik';
 // import { mockAPI } from './fixture';
-import { dateInWords, weekStart, weekEnd } from '../../utils/helpers';
+import { withAuthContext } from '../../utils/AuthContext';
+
+import {
+  dateInWords,
+  weekStart,
+  weekEnd,
+  weekRangeInWords
+} from '../../utils/helpers';
 
 export class Report extends Component {
   constructor(props) {
@@ -15,8 +23,15 @@ export class Report extends Component {
 
   state = {
     groupPoints: {},
+    createdBy: null,
     needToCreateResponse: true,
-    submitting: false
+    submitting: false,
+    reportUserName: '',
+    dueDate: null,
+    otherReports: [],
+    group: null,
+    viewerIsSelf: false,
+    viewerisCoach: false
   };
 
   componentDidMount() {
@@ -36,12 +51,13 @@ export class Report extends Component {
       .then(response => {
         this.setState(response.data);
         this.loadResponseData(response.data._id);
+        this.loadGroupData(response.data._id);
       })
       .catch(error => console.error(error));
   }
 
-  loadResponseData(reportID) {
-    fetch(`/api/report/${reportID}/response/my`, {
+  loadResponseData(reportId) {
+    fetch(`/api/report/${reportId}/response/my`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -58,6 +74,11 @@ export class Report extends Component {
       .then(response => {
         if (response.status === 200) {
           this.setState({
+            createdBy: response.data.createdBy._id,
+            viewerIsSelf: this.props.user._id == response.data.createdBy._id,
+            reportUserName: `${response.data.createdBy.firstName} ${
+              response.data.createdBy.lastName
+            }`,
             needToCreateResponse: false,
             coachComment: response.data.coachComment,
             responseID: response.data._id,
@@ -95,6 +116,28 @@ export class Report extends Component {
   // loadGroupPoints() {
   //   return mockAPI.loadGroupPoints();
   // }
+
+  loadGroupData(reportId) {
+    fetch(`/api/group/${this.state.group}/report/${reportId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then(response => response.json())
+      .then(response => {
+        this.setState({
+          otherReports: response.data.group.reports.reverse()
+        });
+      })
+      .catch(error => console.error(error));
+  }
+
+  changeReport = async ({ value }) => {
+    await navigate(`/user/${this.state.createdBy}/report/${value}`);
+    this.loadReportData();
+  };
 
   changeAmount = event => {
     const idToUpdate = event.target.getAttribute('data-id');
@@ -208,12 +251,30 @@ export class Report extends Component {
   render() {
     return (
       <form>
-        <div style={{ padding: '30px' }}>
-          <UikHeadline style={{ marginLeft: '20px' }}>
-            Weekly Report:{' '}
-            {`${dateInWords(weekStart(this.state.dueDate))} \u2014
-            ${dateInWords(weekEnd(this.state.dueDate))}`}
-          </UikHeadline>
+        <div style={{ padding: '30px', marginLeft: '20px' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <UikHeadline>
+              Weekly Report: {this.state.reportUserName}
+            </UikHeadline>
+            <UikSelect
+              placeholder={weekRangeInWords(this.state.dueDate)}
+              options={this.state.otherReports.map(report => {
+                return {
+                  value: report._id,
+                  label: weekRangeInWords(report.dueDate),
+                  key: report._id
+                };
+              })}
+              onChange={this.changeReport}
+              position='bottomRight'
+            />
+          </div>
           <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
             <WeekProgressChart
               pointsExpected={this.state.pointsExpected}
@@ -257,39 +318,36 @@ export class Report extends Component {
                 : ''}
             </div>
           </div>
-          <div style={{ margin: '20px' }}>
-            <UikContentTitle>Comment for Coach</UikContentTitle>
-            <br />
-            <textarea
-              className='uik-input__input'
-              style={{ minHeight: '75px' }}
-              onChange={this.handleCoachCommentChange}
-              value={this.state.coachComment}
-            />
-          </div>
-          {/* <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              marginBottom: '20px'
-            }}
-          >
-            <UikToggle defaultChecked label='Active Week' />
-          </div> */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <UikButton
-              primary
-              style={{ marginRight: '10px' }}
-              onClick={this.handleSubmit}
-              disabled={this.state.submitting}
-              isLoading={this.state.submitting}
-            >
-              Save
-            </UikButton>
-            <UikButton disabled={this.state.submitting}>Cancel</UikButton>
-          </div>
+          {(this.state.viewerIsSelf || this.state.viewerIsCoach) && (
+            <div>
+              <div style={{ margin: '20px' }}>
+                <UikContentTitle>Comment for Coach</UikContentTitle>
+                <br />
+                <textarea
+                  className='uik-input__input'
+                  style={{ minHeight: '75px' }}
+                  onChange={this.handleCoachCommentChange}
+                  value={this.state.coachComment}
+                />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <UikButton
+                  primary
+                  style={{ marginRight: '10px' }}
+                  onClick={this.handleSubmit}
+                  disabled={this.state.submitting}
+                  isLoading={this.state.submitting}
+                >
+                  Save
+                </UikButton>
+                <UikButton disabled={this.state.submitting}>Cancel</UikButton>
+              </div>
+            </div>
+          )}
         </div>
       </form>
     );
   }
 }
+
+export default withAuthContext(Report);

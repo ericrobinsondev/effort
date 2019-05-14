@@ -119,7 +119,7 @@ export const getGroupWeek = async (req, res) => {
         group: req.params.id
       }
     })
-      .select('_id totalPointsEarned createdBy dueDate')
+      .select('_id totalPointsEarned createdBy dueDate report')
       .populate('createdBy', ['firstName', 'lastName'])
       .lean()
       .exec();

@@ -26,7 +26,7 @@ export const TopBar = () => {
               <TopBarCoach />
             ) : (
               <UikTopBarLinkContainer>
-                <UikTopBarLink Component={Link} to='/current'>
+                <UikTopBarLink Component={Link} to='/report/current'>
                   Current Report
                 </UikTopBarLink>
                 <UikTopBarLink Component={Link} to='/group'>
