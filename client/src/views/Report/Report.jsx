@@ -31,7 +31,7 @@ export class Report extends Component {
     otherReports: [],
     group: null,
     viewerIsSelf: false,
-    viewerisCoach: false
+    viewerisCoach: this.props.isCoach
   };
 
   componentDidMount() {
@@ -150,56 +150,61 @@ export class Report extends Component {
   };
 
   changeAmount = event => {
-    const idToUpdate = event.target.getAttribute('data-id');
-    const questionIndex = this.state.questions.findIndex(
-      // eslint-disable-next-line eqeqeq
-      question => question._id == idToUpdate
-    );
-    const question = this.state.questions[questionIndex];
-    const pointsEarned = this.calculatePointsEarned(
-      question.creditForEach,
-      event.target.value,
-      question.pointsEach
-    );
+    if (this.state.viewerIsSelf) {
+      const idToUpdate = event.target.getAttribute('data-id');
+      const questionIndex = this.state.questions.findIndex(
+        // eslint-disable-next-line eqeqeq
+        question => question._id == idToUpdate
+      );
+      const question = this.state.questions[questionIndex];
+      const pointsEarned = this.calculatePointsEarned(
+        question.creditForEach,
+        event.target.value,
+        question.pointsEach
+      );
 
-    this.setState({
-      totalPointsEarned:
-        this.state.totalPointsEarned + (pointsEarned - question.pointsEarned),
-      questions: [
-        ...this.state.questions.slice(0, questionIndex),
-        {
-          ...this.state.questions[questionIndex],
-          amount: event.target.value,
-          pointsEarned
-        },
-        ...this.state.questions.slice(
-          questionIndex + 1,
-          this.state.questions.length
-        )
-      ]
-    });
+      this.setState({
+        totalPointsEarned:
+          this.state.totalPointsEarned + (pointsEarned - question.pointsEarned),
+        questions: [
+          ...this.state.questions.slice(0, questionIndex),
+          {
+            ...this.state.questions[questionIndex],
+            amount: event.target.value,
+            pointsEarned
+          },
+          ...this.state.questions.slice(
+            questionIndex + 1,
+            this.state.questions.length
+          )
+        ]
+      });
+    }
   };
 
   handleCommentChange = event => {
-    const idToUpdate = event.target.getAttribute('data-comment-id');
-    const questionIndex = this.state.questions.findIndex(
-      // eslint-disable-next-line eqeqeq
-      question => question._id == idToUpdate
-    );
+    if (this.state.viewerIsSelf) {
+      console.log('STATE: ', this.state.viewerIsSelf);
+      const idToUpdate = event.target.getAttribute('data-comment-id');
+      const questionIndex = this.state.questions.findIndex(
+        // eslint-disable-next-line eqeqeq
+        question => question._id == idToUpdate
+      );
 
-    this.setState({
-      questions: [
-        ...this.state.questions.slice(0, questionIndex),
-        {
-          ...this.state.questions[questionIndex],
-          comment: event.target.value
-        },
-        ...this.state.questions.slice(
-          questionIndex + 1,
-          this.state.questions.length
-        )
-      ]
-    });
+      this.setState({
+        questions: [
+          ...this.state.questions.slice(0, questionIndex),
+          {
+            ...this.state.questions[questionIndex],
+            comment: event.target.value
+          },
+          ...this.state.questions.slice(
+            questionIndex + 1,
+            this.state.questions.length
+          )
+        ]
+      });
+    }
   };
 
   calculatePointsEarned = (creditForEach, amount, pointsEach) => {
@@ -253,9 +258,11 @@ export class Report extends Component {
   };
 
   handleCoachCommentChange = event => {
-    this.setState({
-      coachComment: event.target.value
-    });
+    if (this.state.viewerIsSelf) {
+      this.setState({
+        coachComment: event.target.value
+      });
+    }
   };
 
   render() {
