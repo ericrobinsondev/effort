@@ -31,7 +31,7 @@ export class Report extends Component {
     otherReports: [],
     group: null,
     viewerIsSelf: false,
-    viewerisCoach: this.props.isCoach
+    viewerIsCoach: this.props.isCoach
   };
 
   componentDidMount() {
