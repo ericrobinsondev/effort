@@ -14,6 +14,7 @@ Object {
           <a
             aria-current="page"
             href="/"
+            style="text-decoration: none;"
           >
             <h2
               class="uik-top-bar-title__wrapper"
@@ -29,9 +30,17 @@ Object {
           >
             <a
               class="uik-top-bar-link__wrapper"
-              href="/current"
+              href="/report/current"
+              style="text-decoration: none;"
             >
               Current Report
+            </a>
+            <a
+              class="uik-top-bar-link__wrapper"
+              href="/group"
+              style="text-decoration: none;"
+            >
+              Group
             </a>
           </div>
         </div>
@@ -62,6 +71,7 @@ Object {
         <a
           aria-current="page"
           href="/"
+          style="text-decoration: none;"
         >
           <h2
             class="uik-top-bar-title__wrapper"
@@ -77,9 +87,17 @@ Object {
         >
           <a
             class="uik-top-bar-link__wrapper"
-            href="/current"
+            href="/report/current"
+            style="text-decoration: none;"
           >
             Current Report
+          </a>
+          <a
+            class="uik-top-bar-link__wrapper"
+            href="/group"
+            style="text-decoration: none;"
+          >
+            Group
           </a>
         </div>
       </div>
