@@ -25,7 +25,7 @@ export class Report extends Component {
   }
 
   loadReportData() {
-    fetch('/api/report/current', {
+    fetch(`/api/report/${this.props.id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -19,7 +19,6 @@ router.route('/').post(createReport);
 
 // /api/report/ID
 
-router.route('/current').get(getCurrentReport);
 router.route('/:id').get(getReport);
 router.route('/:id').put(updateReport);
 

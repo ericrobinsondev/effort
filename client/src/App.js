@@ -18,7 +18,7 @@ class App extends Component {
           <Router primary={false}>
             <ProtectedRoute path='/' component={Layout}>
               <GroupWeek path='/' component={GroupWeek} />
-              <Report path='current' component={Report} />
+              <Report path='report/:id' component={Report} />
               <Group path='group' component={Group} />
               <GroupWeek path='group/week/:reportId' component={GroupWeek} />
               <User path='user/:userId' component={User} />
