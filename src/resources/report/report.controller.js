@@ -12,37 +12,29 @@ export const createReport = async (req, res) => {
     res.status(400).end();
   }
 };
-
 export const getReport = async (req, res) => {
-  try {
-    const doc = await Report.findOne({
-      _id: req.params.id,
-      $or: [{ group: req.user.group }, { coaches: { $in: [req.user] } }]
-    });
-    res.status(200).json({ data: doc });
-  } catch (e) {
-    console.error(e);
-    res.status(400).end();
-  }
-};
-
-export const getCurrentReport = async (req, res) => {
   const dueDate = weekEnd(Date.now());
+  const reportQuery =
+    req.params.id == 'current'
+      ? {
+          dueDate: {
+            $lte: dueDate,
+            $gt: subDays(dueDate, 6)
+          }
+        }
+      : { _id: req.params.id };
 
   try {
     let doc = await Report.findOne({
-      dueDate: {
-        $lte: dueDate,
-        $gt: subDays(dueDate, 6)
-      },
+      ...reportQuery,
       $or: [
         { group: req.user.group },
         { group: { $in: [req.user.coachOfGroups] } }
       ]
     });
 
-    if (!doc) {
-      doc = await Report.findOne({
+    if (!doc && req.params.id == 'current') {
+      const previousReportDoc = await Report.findOne({
         dueDate: {
           $lte: dueDate,
           $gt: subDays(dueDate, 13)
@@ -53,14 +45,14 @@ export const getCurrentReport = async (req, res) => {
         ]
       });
 
-      if (doc) {
-        var copiedCurrentReport = new Report(doc);
+      if (previousReportDoc) {
+        var copiedCurrentReport = new Report(previousReportDoc);
         copiedCurrentReport._id = mongoose.Types.ObjectId();
         copiedCurrentReport.dueDate = dueDate;
         doc = await Report.create(
           copiedCurrentReport.toObject({ minimize: false })
         );
-      } else {
+      } else if (!doc) {
         throw Error('Could not find current or previous report');
       }
     }

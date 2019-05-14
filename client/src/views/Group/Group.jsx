@@ -10,14 +10,17 @@ import { Link } from '@reach/router';
 
 export class Group extends Component {
   state = {
-    name: 'Group Name',
+    name: '',
     dueDate: dateInWords(weekEnd(Date.now()))
   };
 
   componentDidMount() {
-    this.fetchGroupData(
-      JSON.parse(localStorage.getItem('user')).coachOfGroups[0]._id
-    );
+    const groupId =
+      JSON.parse(localStorage.getItem('user')).coachOfGroups.length > 0
+        ? JSON.parse(localStorage.getItem('user')).coachOfGroups[0]._id
+        : JSON.parse(localStorage.getItem('user')).group;
+
+    this.fetchGroupData(groupId);
   }
 
   fetchGroupData(groupID) {

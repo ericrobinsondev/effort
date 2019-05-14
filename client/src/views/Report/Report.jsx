@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import { QuestionChart } from './QuestionChart';
 import { WeekProgressChart } from './WeekProgressChart';
+import { navigate } from '@reach/router';
 // import { GroupChart } from './GroupChart';
-import { UikButton, UikHeadline, UikContentTitle } from '../../@uik';
+import { UikButton, UikHeadline, UikContentTitle, UikSelect } from '../../@uik';
 // import { mockAPI } from './fixture';
-import { dateInWords, weekStart, weekEnd } from '../../utils/helpers';
+import { withAuthContext } from '../../utils/AuthContext';
+
+import {
+  dateInWords,
+  weekStart,
+  weekEnd,
+  weekRangeInWords
+} from '../../utils/helpers';
 
 export class Report extends Component {
   constructor(props) {
@@ -15,8 +23,15 @@ export class Report extends Component {
 
   state = {
     groupPoints: {},
+    createdBy: null,
     needToCreateResponse: true,
-    submitting: false
+    submitting: false,
+    reportUserName: '',
+    dueDate: null,
+    otherReports: [],
+    group: null,
+    viewerIsSelf: false,
+    viewerIsCoach: this.props.isCoach
   };
 
   componentDidMount() {
@@ -25,7 +40,7 @@ export class Report extends Component {
   }
 
   loadReportData() {
-    fetch('/api/report/current', {
+    fetch(`/api/report/${this.props.id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -36,12 +51,18 @@ export class Report extends Component {
       .then(response => {
         this.setState(response.data);
         this.loadResponseData(response.data._id);
+        this.loadGroupData(response.data._id);
       })
       .catch(error => console.error(error));
   }
 
-  loadResponseData(reportID) {
-    fetch(`/api/report/${reportID}/response/my`, {
+  loadResponseData(reportId) {
+    let responseUserId =
+      this.props.uri === '/report/current'
+        ? this.props.user._id
+        : this.props.userId;
+
+    fetch(`/api/report/${reportId}/response/user/${responseUserId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -58,6 +79,11 @@ export class Report extends Component {
       .then(response => {
         if (response.status === 200) {
           this.setState({
+            createdBy: response.data.createdBy._id,
+            viewerIsSelf: this.props.user._id == response.data.createdBy._id,
+            reportUserName: `${response.data.createdBy.firstName} ${
+              response.data.createdBy.lastName
+            }`,
             needToCreateResponse: false,
             coachComment: response.data.coachComment,
             responseID: response.data._id,
@@ -79,6 +105,11 @@ export class Report extends Component {
             needToCreateResponse: true,
             coachComment: ' ',
             totalPointsEarned: 0,
+            createdBy: response.data.user._id,
+            reportUserName: `${response.data.user.firstName} ${
+              response.data.user.lastName
+            }`,
+            viewerIsSelf: this.props.user._id == response.data.user._id,
             questions: this.state.questions.map(question => {
               return {
                 ...question,
@@ -96,57 +127,84 @@ export class Report extends Component {
   //   return mockAPI.loadGroupPoints();
   // }
 
-  changeAmount = event => {
-    const idToUpdate = event.target.getAttribute('data-id');
-    const questionIndex = this.state.questions.findIndex(
-      // eslint-disable-next-line eqeqeq
-      question => question._id == idToUpdate
-    );
-    const question = this.state.questions[questionIndex];
-    const pointsEarned = this.calculatePointsEarned(
-      question.creditForEach,
-      event.target.value,
-      question.pointsEach
-    );
+  loadGroupData(reportId) {
+    fetch(`/api/group/${this.state.group}/report/${reportId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then(response => response.json())
+      .then(response => {
+        this.setState({
+          otherReports: response.data.group.reports.reverse()
+        });
+      })
+      .catch(error => console.error(error));
+  }
 
-    this.setState({
-      totalPointsEarned:
-        this.state.totalPointsEarned + (pointsEarned - question.pointsEarned),
-      questions: [
-        ...this.state.questions.slice(0, questionIndex),
-        {
-          ...this.state.questions[questionIndex],
-          amount: event.target.value,
-          pointsEarned
-        },
-        ...this.state.questions.slice(
-          questionIndex + 1,
-          this.state.questions.length
-        )
-      ]
-    });
+  changeReport = async ({ value }) => {
+    await navigate(`/user/${this.state.createdBy}/report/${value}`);
+    this.loadReportData();
+  };
+
+  changeAmount = event => {
+    if (this.state.viewerIsSelf) {
+      const idToUpdate = event.target.getAttribute('data-id');
+      const questionIndex = this.state.questions.findIndex(
+        // eslint-disable-next-line eqeqeq
+        question => question._id == idToUpdate
+      );
+      const question = this.state.questions[questionIndex];
+      const pointsEarned = this.calculatePointsEarned(
+        question.creditForEach,
+        event.target.value,
+        question.pointsEach
+      );
+
+      this.setState({
+        totalPointsEarned:
+          this.state.totalPointsEarned + (pointsEarned - question.pointsEarned),
+        questions: [
+          ...this.state.questions.slice(0, questionIndex),
+          {
+            ...this.state.questions[questionIndex],
+            amount: event.target.value,
+            pointsEarned
+          },
+          ...this.state.questions.slice(
+            questionIndex + 1,
+            this.state.questions.length
+          )
+        ]
+      });
+    }
   };
 
   handleCommentChange = event => {
-    const idToUpdate = event.target.getAttribute('data-comment-id');
-    const questionIndex = this.state.questions.findIndex(
-      // eslint-disable-next-line eqeqeq
-      question => question._id == idToUpdate
-    );
+    if (this.state.viewerIsSelf) {
+      console.log('STATE: ', this.state.viewerIsSelf);
+      const idToUpdate = event.target.getAttribute('data-comment-id');
+      const questionIndex = this.state.questions.findIndex(
+        // eslint-disable-next-line eqeqeq
+        question => question._id == idToUpdate
+      );
 
-    this.setState({
-      questions: [
-        ...this.state.questions.slice(0, questionIndex),
-        {
-          ...this.state.questions[questionIndex],
-          comment: event.target.value
-        },
-        ...this.state.questions.slice(
-          questionIndex + 1,
-          this.state.questions.length
-        )
-      ]
-    });
+      this.setState({
+        questions: [
+          ...this.state.questions.slice(0, questionIndex),
+          {
+            ...this.state.questions[questionIndex],
+            comment: event.target.value
+          },
+          ...this.state.questions.slice(
+            questionIndex + 1,
+            this.state.questions.length
+          )
+        ]
+      });
+    }
   };
 
   calculatePointsEarned = (creditForEach, amount, pointsEach) => {
@@ -200,20 +258,40 @@ export class Report extends Component {
   };
 
   handleCoachCommentChange = event => {
-    this.setState({
-      coachComment: event.target.value
-    });
+    if (this.state.viewerIsSelf) {
+      this.setState({
+        coachComment: event.target.value
+      });
+    }
   };
 
   render() {
     return (
       <form>
-        <div style={{ padding: '30px' }}>
-          <UikHeadline style={{ marginLeft: '20px' }}>
-            Weekly Report:{' '}
-            {`${dateInWords(weekStart(this.state.dueDate))} \u2014
-            ${dateInWords(weekEnd(this.state.dueDate))}`}
-          </UikHeadline>
+        <div style={{ padding: '30px', marginLeft: '20px' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <UikHeadline>
+              Weekly Report: {this.state.reportUserName}
+            </UikHeadline>
+            <UikSelect
+              placeholder={weekRangeInWords(this.state.dueDate)}
+              options={this.state.otherReports.map(report => {
+                return {
+                  value: report._id,
+                  label: weekRangeInWords(report.dueDate),
+                  key: report._id
+                };
+              })}
+              onChange={this.changeReport}
+              position='bottomRight'
+            />
+          </div>
           <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
             <WeekProgressChart
               pointsExpected={this.state.pointsExpected}
@@ -257,39 +335,36 @@ export class Report extends Component {
                 : ''}
             </div>
           </div>
-          <div style={{ margin: '20px' }}>
-            <UikContentTitle>Comment for Coach</UikContentTitle>
-            <br />
-            <textarea
-              className='uik-input__input'
-              style={{ minHeight: '75px' }}
-              onChange={this.handleCoachCommentChange}
-              value={this.state.coachComment}
-            />
-          </div>
-          {/* <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              marginBottom: '20px'
-            }}
-          >
-            <UikToggle defaultChecked label='Active Week' />
-          </div> */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <UikButton
-              primary
-              style={{ marginRight: '10px' }}
-              onClick={this.handleSubmit}
-              disabled={this.state.submitting}
-              isLoading={this.state.submitting}
-            >
-              Save
-            </UikButton>
-            <UikButton disabled={this.state.submitting}>Cancel</UikButton>
-          </div>
+          {(this.state.viewerIsSelf || this.state.viewerIsCoach) && (
+            <div>
+              <div style={{ margin: '20px' }}>
+                <UikContentTitle>Comment for Coach</UikContentTitle>
+                <br />
+                <textarea
+                  className='uik-input__input'
+                  style={{ minHeight: '75px' }}
+                  onChange={this.handleCoachCommentChange}
+                  value={this.state.coachComment}
+                />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <UikButton
+                  primary
+                  style={{ marginRight: '10px' }}
+                  onClick={this.handleSubmit}
+                  disabled={this.state.submitting}
+                  isLoading={this.state.submitting}
+                >
+                  Save
+                </UikButton>
+                <UikButton disabled={this.state.submitting}>Cancel</UikButton>
+              </div>
+            </div>
+          )}
         </div>
       </form>
     );
   }
 }
+
+export default withAuthContext(Report);

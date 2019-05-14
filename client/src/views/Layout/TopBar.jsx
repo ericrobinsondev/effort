@@ -18,7 +18,7 @@ export const TopBar = () => {
       {({ logout, isCoach }) => (
         <UikTopBar>
           <UikTopBarSection>
-            <Link to='/'>
+            <Link to='/' style={{ textDecoration: 'none' }}>
               <UikTopBarTitle>Measure Effort</UikTopBarTitle>
             </Link>
             <UikDivider margin vertical />
@@ -26,8 +26,18 @@ export const TopBar = () => {
               <TopBarCoach />
             ) : (
               <UikTopBarLinkContainer>
-                <UikTopBarLink Component={Link} to='/current'>
+                <UikTopBarLink
+                  href='/report/current'
+                  style={{ textDecoration: 'none' }}
+                >
                   Current Report
+                </UikTopBarLink>
+                <UikTopBarLink
+                  Component={Link}
+                  to='/group'
+                  style={{ textDecoration: 'none' }}
+                >
+                  Group
                 </UikTopBarLink>
               </UikTopBarLinkContainer>
             )}

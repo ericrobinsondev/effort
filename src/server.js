@@ -9,6 +9,7 @@ import { signup, signin, authRequired } from './utils/auth';
 import { ministryRouter } from './resources/ministry/ministry.router';
 import { reportRouter } from './resources/report/report.router';
 import { groupRouter } from './resources/group/group.router';
+import { userRouter } from './resources/user/user.router';
 
 export const app = express();
 
@@ -26,6 +27,7 @@ app.use('/api', authRequired);
 app.use('/api/ministry', ministryRouter);
 app.use('/api/report', reportRouter);
 app.use('/api/group', groupRouter);
+app.use('/api/user', userRouter);
 app.post('/signup', signup);
 app.post('/signin', signin);
 

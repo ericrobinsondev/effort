@@ -25,7 +25,7 @@ export class GroupWeek extends Component {
 
   fetchGroupWeekData() {
     const groupId = this.props.isCoach
-      ? this.props.user.coachOfGroups[0]
+      ? this.props.user.coachOfGroups[0]._id
       : this.props.user.group;
 
     const reportId = this.props.reportId ? this.props.reportId : '';
@@ -43,8 +43,10 @@ export class GroupWeek extends Component {
           return {
             firstName: response.createdBy.firstName,
             lastName: response.createdBy.lastName,
+            createdBy: response.createdBy._id,
             totalPointsEarned: response.totalPointsEarned,
-            _id: response._id
+            _id: response._id,
+            report: response.report
           };
         });
 
@@ -102,8 +104,20 @@ export class GroupWeek extends Component {
                   this.state.responses.map(response => {
                     return (
                       <tr key={response._id}>
-                        <td>{`${response.firstName} ${response.lastName}`}</td>
-                        <td>{response.totalPointsEarned}</td>
+                        <td>
+                          <Link to={`/user/${response.createdBy}`}>
+                            {`${response.firstName} ${response.lastName}`}
+                          </Link>
+                        </td>
+                        <td>
+                          <Link
+                            to={`/user/${response.createdBy}/report/${
+                              response.report
+                            }`}
+                          >
+                            {response.totalPointsEarned}
+                          </Link>
+                        </td>
                       </tr>
                     );
                   })}
@@ -111,14 +125,14 @@ export class GroupWeek extends Component {
             </UikWidgetTable>
           </UikWidget>
         </div>
-        <div>
+        {/* <div>
           <UikHeadline>Report</UikHeadline>
           <p>
             <Link to={`/report/${this.state.report._id}`}>
               Report for week of {weekRangeInWords(this.state.report.dueDate)}
             </Link>
           </p>
-        </div>
+        </div> */}
       </div>
     );
   }
