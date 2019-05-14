@@ -57,7 +57,12 @@ export class Report extends Component {
   }
 
   loadResponseData(reportId) {
-    fetch(`/api/report/${reportId}/response/my`, {
+    let responseUserId =
+      this.props.uri === '/report/current'
+        ? this.props.user._id
+        : this.props.userId;
+
+    fetch(`/api/report/${reportId}/response/user/${responseUserId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -100,6 +105,11 @@ export class Report extends Component {
             needToCreateResponse: true,
             coachComment: ' ',
             totalPointsEarned: 0,
+            createdBy: response.data.user._id,
+            reportUserName: `${response.data.user.firstName} ${
+              response.data.user.lastName
+            }`,
+            viewerIsSelf: this.props.user._id == response.data.user._id,
             questions: this.state.questions.map(question => {
               return {
                 ...question,

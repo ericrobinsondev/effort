@@ -26,6 +26,6 @@ router.route('/:id').put(updateReport);
 router.route('/:id/response').post(createResponse);
 router.route('/:id/response/:responseID').put(updateResponse);
 router.route('/:id/response').get(getAllResponses);
-router.route('/:id/response/my').get(getResponse);
+router.route('/:id/response/user/:userId').get(getResponse);
 
 export const reportRouter = router;
