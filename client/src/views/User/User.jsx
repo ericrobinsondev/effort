@@ -73,8 +73,24 @@ export class User extends Component {
                   this.state.responses.map(response => {
                     return (
                       <tr key={response._id}>
-                        <td>{weekRangeInWords(response.dueDate)}</td>
-                        <td>{response.totalPointsEarned}</td>
+                        <td>
+                          <Link
+                            to={`/user/${this.props.userId}/report/${
+                              response.report
+                            }`}
+                          >
+                            {weekRangeInWords(response.dueDate)}
+                          </Link>
+                        </td>
+                        <td>
+                          <Link
+                            to={`/user/${this.props.userId}/report/${
+                              response.report
+                            }`}
+                          >
+                            {response.totalPointsEarned}
+                          </Link>
+                        </td>
                       </tr>
                     );
                   })}
