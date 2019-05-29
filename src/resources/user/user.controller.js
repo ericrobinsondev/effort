@@ -24,7 +24,7 @@ export const getUser = async (req, res) => {
           member => member._id == req.params.id
         )
       ) {
-      } else if (req.user.group == userDoc.group) {
+      } else if (req.user.group.toString() == userDoc.group.toString()) {
       } else {
         throw Error('Unauthorized');
       }
