@@ -92,12 +92,18 @@ export class Report extends Component {
               var matchingAnswer = response.data.answers.find(
                 answer => answer.questionTitle === question.title
               );
-              return {
-                ...question,
-                comment: matchingAnswer.comment,
-                pointsEarned: matchingAnswer.pointsEarned,
-                amount: matchingAnswer.amount
-              };
+              if (matchingAnswer) {
+                return {
+                  ...question,
+                  comment: matchingAnswer.comment,
+                  pointsEarned: matchingAnswer.pointsEarned,
+                  amount: matchingAnswer.amount
+                };
+              } else {
+                return {
+                  ...question
+                };
+              }
             })
           });
         } else if (response.status === 404) {
