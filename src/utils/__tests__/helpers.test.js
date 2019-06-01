@@ -1,4 +1,10 @@
-import { sendErrorMessage, weekStart, weekEnd, dateInWords } from '../helpers';
+import {
+  sendErrorMessage,
+  weekStart,
+  weekEnd,
+  dateInWords,
+  startOfWeek
+} from '../helpers';
 
 describe('Helpers:', () => {
   describe('sendErrorMessage', () => {
@@ -41,18 +47,6 @@ describe('Helpers:', () => {
   });
 
   describe('Date functions', () => {
-    test('weekStart formats start of week correctly', () => {
-      const date = new Date(1559248763970);
-
-      expect(weekStart(date).toISOString()).toEqual('2019-05-27T05:00:00.000Z');
-    });
-
-    test('weekEnd formats end of week correctly', () => {
-      const date = new Date(1559248763970);
-
-      expect(weekEnd(date).toISOString()).toEqual('2019-06-03T04:59:59.999Z');
-    });
-
     test('dateInWords formats date correctly', () => {
       const date = new Date(1559248763970);
 
