@@ -44,13 +44,13 @@ describe('Helpers:', () => {
     test('weekStart formats start of week correctly', () => {
       const date = new Date(1559248763970);
 
-      expect(weekStart(date).toISOString()).toBe('2019-05-27T05:00:00.000Z');
+      expect(weekStart(date).toISOString()).toEqual('2019-05-27T05:00:00.000Z');
     });
 
     test('weekEnd formats end of week correctly', () => {
       const date = new Date(1559248763970);
 
-      expect(weekEnd(date).toISOString()).toBe('2019-06-03T04:59:59.999Z');
+      expect(weekEnd(date).toISOString()).toEqual('2019-06-03T04:59:59.999Z');
     });
 
     test('dateInWords formats date correctly', () => {
