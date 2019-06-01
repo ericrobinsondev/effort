@@ -6,6 +6,8 @@ import { AuthProvider } from './utils/AuthContext';
 import { ProtectedRoute } from './utils/ProtectedRoute';
 import { Layout } from './views/Layout';
 import Report from './views/Report/Report';
+import ReportsList from './views/Report/ReportsList';
+import CreateReport from './views/Report/CreateReport';
 import { Group } from './views/Group';
 import GroupWeek from './views/Group/GroupWeek';
 import User from './views/User/User';
@@ -20,6 +22,8 @@ class App extends Component {
             <ProtectedRoute path='/' component={Layout} altComponent={Landing}>
               <GroupWeek path='/' component={GroupWeek} />
               <Report path='report/:id' component={Report} />
+              <ReportsList path='report/list' component={ReportsList} />
+              <CreateReport path='report/create' component={CreateReport} />
               <Group path='group' component={Group} />
               <GroupWeek path='group/week/:reportId' component={GroupWeek} />
               <User path='user/:userId' component={User} />

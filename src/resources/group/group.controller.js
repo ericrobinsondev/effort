@@ -28,6 +28,7 @@ export const getGroup = async (req, res) => {
       .populate('members', ['firstName', 'lastName'])
       .populate('admins', ['firstName', 'lastName'])
       .populate('coaches', ['firstName', 'lastName'])
+      .populate('reports', ['dueDate', 'pointsExpected'])
       .lean()
       .exec();
 

@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ReportList /> should render correctly for coaches 1`] = `
+<div>
+  <div
+    style="padding: 30px; margin-left: 20px;"
+  >
+    <div
+      style="display: flex; justify-content: space-between; align-items: center;"
+    >
+      <h2
+        class="uik-headline__wrapper"
+      >
+        Reports
+      </h2>
+      <a
+        class="uik-btn__base uik-btn__success"
+        href="/report/create"
+        style="text-decoration: none;"
+      >
+        <span
+          class="uik-btn__content"
+        >
+          New Report
+        </span>
+      </a>
+    </div>
+    <div
+      class="uik-widget__wrapper"
+    >
+      <table
+        class="uik-widget-table__wrapper"
+      >
+        <thead>
+          <tr>
+            <th>
+              Report
+            </th>
+            <th>
+              Points Expected
+            </th>
+            <th>
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              May 27—Jun 2
+            </td>
+            <td>
+              100
+            </td>
+            <td>
+              <a
+                class="uik-btn__base uik-btn__xs"
+                href="/group/week/5cf2b584c67b0387a04070e0"
+                style="text-decoration: none;"
+              >
+                <span
+                  class="uik-btn__content"
+                >
+                  View Responses
+                </span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;
