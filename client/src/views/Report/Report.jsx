@@ -4,15 +4,9 @@ import { WeekProgressChart } from './WeekProgressChart';
 import { navigate } from '@reach/router';
 // import { GroupChart } from './GroupChart';
 import { UikButton, UikHeadline, UikContentTitle, UikSelect } from '../../@uik';
-// import { mockAPI } from './fixture';
 import { withAuthContext } from '../../utils/AuthContext';
 
-import {
-  dateInWords,
-  weekStart,
-  weekEnd,
-  weekRangeInWords
-} from '../../utils/helpers';
+import { weekRangeInWords } from '../../utils/helpers';
 
 export class Report extends Component {
   constructor(props) {
@@ -80,6 +74,7 @@ export class Report extends Component {
         if (response.status === 200) {
           this.setState({
             createdBy: response.data.createdBy._id,
+            // eslint-disable-next-line eqeqeq
             viewerIsSelf: this.props.user._id == response.data.createdBy._id,
             reportUserName: `${response.data.createdBy.firstName} ${
               response.data.createdBy.lastName
@@ -115,6 +110,7 @@ export class Report extends Component {
             reportUserName: `${response.data.user.firstName} ${
               response.data.user.lastName
             }`,
+            // eslint-disable-next-line eqeqeq
             viewerIsSelf: this.props.user._id == response.data.user._id,
             questions: this.state.questions.map(question => {
               return {

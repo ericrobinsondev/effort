@@ -36,6 +36,7 @@ export const compareObjectValues = (key, order = 'asc') => {
     } else if (varA < varB) {
       comparison = -1;
     }
+    //eslint-disable-next-line eqeqeq
     return order == 'desc' ? comparison * -1 : comparison;
   };
 };
