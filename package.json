@@ -31,7 +31,7 @@
     "lodash": "^4.17.13",
     "mongoose": "^5.4.19",
     "morgan": "^1.9.1",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "path": "^0.12.7"
   },
   "devDependencies": {
